@@ -465,7 +465,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
 
   //..
   return result;
-}
+}//consteval YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
 
 
 consteval const auto calc_great_indiction_properties_array()
