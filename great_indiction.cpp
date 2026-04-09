@@ -220,7 +220,7 @@ consteval int calc_weekday_for(const int year_number_in_great_indiction, const M
 }
 
 
-consteval const YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
+consteval YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
 {
   const int year = year_number_in_great_indiction ;
   check_year_number(year) ;
@@ -228,7 +228,7 @@ consteval const YearProperties calc_year_properties_for(const int year_number_in
   YearProperties result;
   for (size_t m = 0; m < result.size(); ++m) for (size_t d = 0; d < result[m].size(); ++d) {
     if (static_cast<long long>(d) >= month_length(m+1, leap)) continue ;
-    result[m][d] = DayProperties::value_type{} ;
+    result[m][d].emplace() ;
   }
   auto set_result_value = [&result](const MonthDay date, const DayProperty value) consteval {
     result[date.first-1][date.second-1].value().set(static_cast<unsigned>(value));
