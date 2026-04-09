@@ -220,7 +220,7 @@ consteval int calc_weekday_for(const int year_number_in_great_indiction, const M
 }
 
 
-consteval YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
+consteval const YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
 {
   const int year = year_number_in_great_indiction ;
   check_year_number(year) ;
@@ -477,7 +477,7 @@ consteval const auto calc_great_indiction_properties_array()
 }
 
 
-//constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
+constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
 
 
 
