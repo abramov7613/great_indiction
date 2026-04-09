@@ -21,4 +21,6 @@ jobs:
           fetch-depth: 0
           
     - name: compile
-      run: gcc -Wall -std=c++23 -c great_indiction.cpp
+      run: |
+        gcc --version
+        gcc -Wall -std=c++23 -c great_indiction.cpp
