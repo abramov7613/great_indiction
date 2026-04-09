@@ -39,9 +39,12 @@ using MonthProperties = std::array<DayProperties, 31> ;
 using YearProperties = std::array<MonthProperties, 12> ;
 
 
+constexpr auto GI_LENGTH = 532 ;
+
+
 constexpr void check_year_number(const int year_number_in_great_indiction)
 {
-  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > 532)
+  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GI_LENGTH)
     throw std::runtime_error("value of 'year_number_in_great_indiction' must be in range [1,533)");
 }
 
@@ -70,7 +73,7 @@ consteval const auto calc_easter_dates_array()
   // index+1 = number of year in great indiction
   // first = month of orthodox easter
   // second = day of orthodox easter
-  std::array<MonthDay, 532> result;
+  std::array<MonthDay, GI_LENGTH> result;
   for (size_t i=0; i<result.size(); ++i) result[i] = calc_easter_for(i+1) ;
   return result;
 }
@@ -116,7 +119,7 @@ consteval int month_length(const int month, const bool leap)
 
 consteval void check_date(const int year_number_in_great_indiction, const MonthDay date)
 {
-  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > 532)
+  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GI_LENGTH)
     throw "value of 'year_number_in_great_indiction' must be in range [1,533)";
   if (date.first < 1 || date.first > 12)
     throw "invalid month number";
@@ -153,7 +156,7 @@ consteval int calc_apostol_fast_length_for(const int year_number_in_great_indict
 consteval const auto calc_apostol_fast_length_array()
 {
   // index+1 = number of year in great indiction
-  std::array<int, 532> result;
+  std::array<int, GI_LENGTH> result;
   for (size_t i=0; i<result.size(); ++i) result[i] = calc_apostol_fast_length_for(i+1) ;
   return result;
 }
@@ -461,6 +464,44 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   set_result_value(incd_(pasha, leap, 63), SUN2_AFTER_PENTECOST);
   set_result_value(incd_(pasha, leap, 70), SUN3_AFTER_PENTECOST);
   set_result_value(incd_(pasha, leap, 77), SUN4_AFTER_PENTECOST);
+  //Суббота перед Воздви́жение
+  dd = {9,13};
+  do {
+    if(6 == calc_weekday_for(year, dd)) {
+      set_result_value(dd, SAT_BEFORE_EXALTATION);
+      break;
+    }
+    dd = decd_(dd, leap, 1);
+  } while (1);
+  //неделя перед Воздви́жение
+  dd = {9,13};
+  do {
+    if(0 == calc_weekday_for(year, dd)) {
+      set_result_value(dd, SUN_BEFORE_EXALTATION);
+      break;
+    }
+    dd = decd_(dd, leap, 1);
+  } while (1);
+  //Суббота после Воздви́жение
+  dd = {9,15};
+  do {
+    if(6 == calc_weekday_for(year, dd)) {
+      set_result_value(dd, SAT_AFTER_EXALTATION);
+      break;
+    }
+    dd = incd_(dd, leap, 1);
+  } while (1);
+  //неделя после Воздви́жение
+  dd = {9,15};
+  do {
+    if(0 == calc_weekday_for(year, dd)) {
+      set_result_value(dd, SUN_AFTER_EXALTATION);
+      break;
+    }
+    dd = incd_(dd, leap, 1);
+  } while (1);
+  //
+
 
 
   //..
@@ -471,7 +512,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
 consteval const auto calc_great_indiction_properties_array()
 {
   // index+1 = number of year in great indiction
-  std::array<YearProperties, 532> result;
+  std::array<YearProperties, GI_LENGTH> result;
   for (size_t i=0; i<result.size(); ++i) result[i] = calc_year_properties_for(i+1) ;
   return result;
 }
