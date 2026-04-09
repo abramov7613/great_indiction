@@ -16,5 +16,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
+    - uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+          
     - name: compile
       run: gcc -Wall -std=c++23 -c great_indiction.cpp
