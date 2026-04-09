@@ -23,4 +23,4 @@ jobs:
     - name: compile
       run: |
         gcc --version
-        gcc -Wall -std=c++23 -c great_indiction.cpp
+        gcc -Wall -std=c++23 -c -fconstexpr-ops-limit=80000000  great_indiction.cpp
