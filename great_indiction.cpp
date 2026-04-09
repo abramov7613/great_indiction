@@ -51,17 +51,6 @@ constexpr void check_year_number(const int year_number_in_great_indiction)
 }
 
 
-consteval void check_date(const int year_number_in_great_indiction, const MonthDay date)
-{
-  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GI_LENGTH)
-    throw "value of 'year_number_in_great_indiction' must be in range [1,533)";
-  if (date.first < 1 || date.first > 12)
-    throw "invalid month number";
-  if (date.second < 1 || date.second > month_length(date.first, is_leap(year_number_in_great_indiction)))
-    throw "invalid day number";
-}
-
-
 consteval bool is_leap(const int year_number_in_great_indiction)
 {
   check_year_number(year_number_in_great_indiction) ;
@@ -94,6 +83,17 @@ consteval int month_length(const int month, const bool leap)
     default:
         return 0;
   }
+}
+
+
+consteval void check_date(const int year_number_in_great_indiction, const MonthDay date)
+{
+  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GI_LENGTH)
+    throw "value of 'year_number_in_great_indiction' must be in range [1,533)";
+  if (date.first < 1 || date.first > 12)
+    throw "invalid month number";
+  if (date.second < 1 || date.second > month_length(date.first, is_leap(year_number_in_great_indiction)))
+    throw "invalid day number";
 }
 
 
@@ -189,7 +189,7 @@ public:
   //decrement copy
   consteval auto dcp(const int c=1) const { auto x = decd_({m_, d_}, l(), c); return DD(y_, x); }
   //increment
-  consteval auto in(const int c=1)
+  consteval DD& in(const int c=1)
   {
     auto x = incd_({m_, d_}, l(), c);
     m_ = x.first;
@@ -197,7 +197,7 @@ public:
     return *this;
   }
   //decrement
-  consteval auto de(const int c=1)
+  consteval DD& de(const int c=1)
   {
     auto x = decd_({m_, d_}, l(), c);
     m_ = x.first;
