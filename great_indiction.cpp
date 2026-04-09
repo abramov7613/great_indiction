@@ -307,7 +307,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   check_year_number(year) ;
   YearProperties result;
   for (size_t m = 0; m < result.size(); ++m) for (size_t d = 0; d < result[m].size(); ++d) {
-    if (static_cast<long long>(d) >= month_length(m+1, leap)) continue ;
+    if (static_cast<long long>(d) >= month_length(m+1, is_leap(year))) continue ;
     result[m][d].emplace() ;
   }
   auto set_result_value = [&result](const DD& d, const DayProperty value) consteval {
@@ -316,7 +316,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   // точки отсчета
   auto const pasha = DD(year, easter_dates_array[year-1]);
   auto const ascension = pasha.icp(39);
-  auto const pentecost = ascention.icp(10);
+  auto const pentecost = ascension.icp(10);
   auto const all_saints = pentecost.icp(7);
   auto const publican_pharisee = pasha.dcp(70);
   auto const prodigal_son = publican_pharisee.icp(7);
