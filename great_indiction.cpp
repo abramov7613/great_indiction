@@ -477,7 +477,7 @@ consteval const auto calc_great_indiction_properties_array()
 }
 
 
-constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array ;
+constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
 
 
 
