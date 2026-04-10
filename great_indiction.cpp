@@ -312,7 +312,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   auto set_result_values = [&set_result_value]
                              (const DD& d, const std::initializer_list<DayProperty> values) consteval
   {
-    for (const auto v: values) set_result_value(v);
+    for (const auto v: values) set_result_value(d,v);
   };
   // точки отсчета
   auto const pasha = DD(year, easter_dates_array[year-1]);
@@ -663,7 +663,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   else set_result_values(dd, {SUN_AFTER_CHRISTMAS_READINGS, SAINTS_JOSEPH_DAVID_JAMES});
   // Суббота пред Богоявлением (типикон стр.380)
   if(i==0 || i==1) {
-    dd = (i == 1) ? {12 ,30} : {12 ,31} ;
+    dd = (i == 1) ? ({12 ,30}) : ({12 ,31}) ;
     if (dd.wd() == 6) set_result_value(dd, SAT_BEFORE_BAPTISM);
     else set_result_value(dd, SAT_BEFORE_BAPTISM_READINGS);
   }
