@@ -51,7 +51,7 @@ constexpr void check_year_number(const int year_number_in_great_indiction)
 }
 
 
-consteval bool is_leap(const int year_number_in_great_indiction)
+constexpr bool is_leap(const int year_number_in_great_indiction)
 {
   check_year_number(year_number_in_great_indiction) ;
   const int year = year_number_in_great_indiction + 1940 ;
@@ -59,7 +59,7 @@ consteval bool is_leap(const int year_number_in_great_indiction)
 }
 
 
-consteval int month_length(const int month, const bool leap)
+constexpr int month_length(const int month, const bool leap)
 {
   switch(month) {
     case 1:
@@ -86,14 +86,12 @@ consteval int month_length(const int month, const bool leap)
 }
 
 
-consteval void check_date(const int year_number_in_great_indiction, const MonthDay date)
+constexpr void check_date(const int year_number_in_great_indiction, const MonthDay date)
 {
-  if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GI_LENGTH)
-    throw "value of 'year_number_in_great_indiction' must be in range [1,533)";
-  if (date.first < 1 || date.first > 12)
-    throw "invalid month number";
+  check_year_number(year_number_in_great_indiction);
+  if (date.first < 1 || date.first > 12) throw std::runtime_error("invalid month number");
   if (date.second < 1 || date.second > month_length(date.first, is_leap(year_number_in_great_indiction)))
-    throw "invalid day number";
+    throw std::runtime_error("invalid day number");
 }
 
 
@@ -609,7 +607,6 @@ consteval const auto calc_great_indiction_properties_array()
 constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
 
 
-
 } // namespace
 
 
@@ -629,4 +626,18 @@ int apostol_fast_length(const int i)
 }
 
 
+bool is_date_of(const int y, const MonthDay d, const DayProperty p)
+{
+  check_date(y, d);
+  const auto& day_properties = great_indiction_properties_array[y][d.first][d.second] ;
+  if (day_properties) return day_properties.value().test(p);
+  return false;
+}
+
+
 } // namespace great_indiction
+
+
+
+
+

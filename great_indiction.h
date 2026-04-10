@@ -186,7 +186,6 @@ enum class DayProperty {
   ENDOF_GOD_MOTHER_ANNUNCIATION     ,///< Отдание праздника Благовещения Пресвятой Богородицы.
   HOLY_GREAT_MARTYR_GEORGE          ,///< Вмч. Гео́ргия Победоно́сца. Мц. царицы Александры.
   FATHERS_ECU_COUNCIL_1_6           ,///< Память святых отцов шести Вселенских Соборов.
-
   DAY_PROPERTY_ENUM_SIZE_
 }; // enum class DayProperty
 using enum DayProperty ;
@@ -394,10 +393,10 @@ constexpr auto ENDOF_ANNUNCIATION = ENDOF_GOD_MOTHER_ANNUNCIATION ;
 constexpr auto MARTYR_GEORG = HOLY_GREAT_MARTYR_GEORGE ;
 constexpr auto COUNCIL_1_6 = FATHERS_ECU_COUNCIL_1_6 ;
 
+
 using MonthDay = std::pair<int,int> ;
-
 MonthDay easter_date(const int year_number_in_great_indiction) ;
-
 int apostol_fast_length(const int year_number_in_great_indiction) ;
+bool is_date_of(const int year_number_in_great_indiction, const MonthDay date, const DayProperty property) ;
 
 } // namespace great_indiction
