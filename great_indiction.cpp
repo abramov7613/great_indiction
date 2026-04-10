@@ -200,13 +200,13 @@ public:
     d_ = x.second;
     return *this;
   }
-  consteval DD& operator++() { return in(); }
-  consteval DD& operator--() { return de(); }
-  consteval DD operator++(int) { DD old = *this; operator++(); return old; }
-  consteval DD operator--(int) { DD old = *this; operator--(); return old; }
-  consteval DD& operator=(std::initializer_list<int> il)
+  consteval DD& assign(const std::initializer_list<int> il)
   {
-    if (il.size() == 2) {
+    if (il.size() == 3) {
+      y_ = *il.begin();
+      m_ = *std::next(il.begin());
+      d_ = *std::next(il.begin(),2);
+    } else if (il.size() == 2) {
       m_ = *il.begin();
       d_ = *std::next(il.begin());
     } else {
@@ -214,6 +214,11 @@ public:
     }
     return *this;
   }
+  consteval DD& operator++() { return in(); }
+  consteval DD& operator--() { return de(); }
+  consteval DD operator++(int) { DD old = *this; operator++(); return old; }
+  consteval DD operator--(int) { DD old = *this; operator--(); return old; }
+  consteval DD& operator=(const std::initializer_list<int> il) { return assign(il); }
   consteval bool operator==(const DD&) const = default;
   consteval bool operator!=(const DD&) const = default;
   consteval bool operator<(const DD& other) const
@@ -663,7 +668,8 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   else set_result_values(dd, {SUN_AFTER_CHRISTMAS_READINGS, SAINTS_JOSEPH_DAVID_JAMES});
   // Суббота пред Богоявлением (типикон стр.380)
   if(i==0 || i==1) {
-    dd = (i == 1) ? ({12 ,30}) : ({12 ,31}) ;
+    if (i == 1) dd.assign({12 ,30});
+    else dd.assign({12 ,31});
     if (dd.wd() == 6) set_result_value(dd, SAT_BEFORE_BAPTISM);
     else set_result_value(dd, SAT_BEFORE_BAPTISM_READINGS);
   }
