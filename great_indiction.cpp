@@ -630,7 +630,7 @@ bool is_date_of(const int y, const MonthDay d, const DayProperty p)
 {
   check_date(y, d);
   const auto& day_properties = great_indiction_properties_array[y][d.first][d.second] ;
-  if (day_properties) return day_properties.value().test(p);
+  if (day_properties) return day_properties.value().test(static_cast<unsigned>(p));
   return false;
 }
 
