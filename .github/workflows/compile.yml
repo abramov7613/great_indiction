@@ -19,8 +19,8 @@ jobs:
     - uses: actions/checkout@v4
       with:
           fetch-depth: 0
-          
+
     - name: compile
       run: |
         gcc --version
-        gcc -Wall -std=c++23 -c -fconstexpr-ops-limit=800000000  great_indiction.cpp
+        gcc -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=800000000  great_indiction.cpp
