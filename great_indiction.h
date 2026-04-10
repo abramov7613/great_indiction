@@ -104,7 +104,10 @@ enum class DayProperty {
   SAT_BEFORE_CHRISTMAS              ,///< Суббота пред Рождеством Христовым.
   SUN_BEFORE_CHRISTMAS              ,///< Неделя пред Рождеством Христовым, святых отец.
   SAT_AFTER_CHRISTMAS               ,///< Суббота по Рождестве Христовом.
+  SAT_AFTER_CHRISTMAS_READINGS      ,///< Чтения субботы по Рождестве Христовом.
   SUN_AFTER_CHRISTMAS               ,///< Неделя по Рождестве Христовом.
+  SUN_AFTER_CHRISTMAS_READINGS      ,///< Чтения недели по Рождестве Христовом
+  SAINTS_JOSEPH_DAVID_JAMES         ,///< Правв. Иосифа Обручника, Давида царя и Иакова, брата Господня.
   PUBLICAN_PHARISEE_SUN             ,///< Неделя о мытаре́ и фарисе́е.
   PRODIGAL_SON_SUN                  ,///< Неделя о блудном сыне.
   MEMORIAL_SAT                      ,///< Суббота мясопу́стная. Вселенская родительская суббота.
@@ -165,7 +168,9 @@ enum class DayProperty {
   LENT_WEEK7_FRI                    ,///< Страстна́я седмица. Великая Пятница.
   LENT_WEEK7_SAT                    ,///< Страстна́я седмица. Великая Суббота.
   SAT_BEFORE_BAPTISM                ,///< Суббота перед Богоявлением.
+  SAT_BEFORE_BAPTISM_READINGS       ,///< Чтения субботы пред Богоявлением.
   SUN_BEFORE_BAPTISM                ,///< Неделя перед Богоявлением.
+  SUN_BEFORE_BAPTISM_READINGS       ,///< Чтения недели пред Богоявлением.
   SAT_AFTER_BAPTISM                 ,///< Суббота по Богоявлении.
   SUN_AFTER_BAPTISM                 ,///< Неделя по Богоявлении.
   NEW_MARTYRS_OF_RUSSIA             ,///< Собор новомучеников и исповедников Церкви Русской.
@@ -280,7 +285,15 @@ constexpr auto COUNCIL_7 = FATHERS_ECU_COUNCIL_7 ;
 constexpr auto SAT_B_XMAS = SAT_BEFORE_CHRISTMAS ;
 constexpr auto SUN_B_XMAS = SUN_BEFORE_CHRISTMAS ;
 constexpr auto SAT_A_XMAS = SAT_AFTER_CHRISTMAS  ;
+constexpr auto SAT_A_XMAS_R = SAT_AFTER_CHRISTMAS_READINGS ;
 constexpr auto SUN_A_XMAS = SUN_AFTER_CHRISTMAS  ;
+constexpr auto SUN_A_XMAS_R = SUN_AFTER_CHRISTMAS_READINGS  ;
+constexpr auto SAT_B_NATIVITY = SAT_BEFORE_CHRISTMAS ;
+constexpr auto SUN_B_NATIVITY = SUN_BEFORE_CHRISTMAS ;
+constexpr auto SAT_A_NATIVITY = SAT_AFTER_CHRISTMAS  ;
+constexpr auto SAT_A_NATIVITY_R = SAT_AFTER_CHRISTMAS_READINGS ;
+constexpr auto SUN_A_NATIVITY = SUN_AFTER_CHRISTMAS  ;
+constexpr auto SUN_A_NATIVITY_R = SUN_AFTER_CHRISTMAS_READINGS  ;
 constexpr auto JUDG_SUN = DREAD_JUDGEMENT_SUN ;
 constexpr auto FORGIVENESS_SUN = CHEESE_SUN ;
 constexpr auto LENT_BEGIN = LENT_WEEK1_MON ;

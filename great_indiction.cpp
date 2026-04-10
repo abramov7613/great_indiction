@@ -98,16 +98,15 @@ constexpr void check_date(const int year_number_in_great_indiction, const MonthD
 consteval auto incd_(const MonthDay date, const bool leap, const int days=1)
 {
   MonthDay r {date};
-  MonthDay l {date};
-  if(days<1) { return l; }
-  if(date.first<1 || date.first>12)  { return l; }
+  if(days<1) { return date; }
+  if(date.first<1 || date.first>12)  { return date; }
   int u = month_length(date.first, leap);
-  if(date.second<1 || date.second>u) { return l; }
+  if(date.second<1 || date.second>u) { return date; }
   r.second += days;
   while (r.second>u) {
     r.second = r.second - u;
     r.first++;
-    if(r.first>12) return l;
+    if(r.first>12) return date;//return source value in this case
     u = month_length(r.first, leap);
   }
   return r;
@@ -117,15 +116,14 @@ consteval auto incd_(const MonthDay date, const bool leap, const int days=1)
 consteval auto decd_(const MonthDay date, const bool leap, const int days=1)
 {
   MonthDay r {date};
-  MonthDay l {date};
-  if(days<1) { return l; }
-  if(date.first<1 || date.first>12)  { return l; }
+  if(days<1) { return date; }
+  if(date.first<1 || date.first>12)  { return date; }
   int u = month_length(date.first, leap);
-  if(date.second<1 || date.second>u) { return l; }
+  if(date.second<1 || date.second>u) { return date; }
   r.second = r.second - days;
   while (r.second < 1) {
     r.first--;
-    if(r.first<1) return l;
+    if(r.first<1) return date;//return source value in this case
     u = month_length(r.first, leap);
     r.second = u + r.second;
   }
@@ -310,6 +308,11 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   }
   auto set_result_value = [&result](const DD& d, const DayProperty value) consteval {
     result[d.m()-1][d.d()-1].value().set(static_cast<unsigned>(value));
+  };
+  auto set_result_values = [&set_result_value]
+                             (const DD& d, const std::initializer_list<DayProperty> values) consteval
+  {
+    for (const auto v: values) set_result_value(v);
   };
   // точки отсчета
   auto const pasha = DD(year, easter_dates_array[year-1]);
@@ -586,7 +589,126 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
     case 6: { set_result_value(dd.icp(7-i), NEW_MARTYRS_OF_RUSSIA); break; }
     default: {}
   };
-  //...
+  // Память святых отцов VII Вселенского Собора.
+  dd = {10,11};
+  i = dd.wd();
+  switch (i) {
+    case 0: { set_result_value(dd, FATHERS_ECU_COUNCIL_7); break; }
+    case 1: {}
+    case 2: {}
+    case 3: { set_result_value(dd.dcp(i), FATHERS_ECU_COUNCIL_7); break; }
+    case 4: {}
+    case 5: {}
+    case 6: { set_result_value(dd.icp(7-i), FATHERS_ECU_COUNCIL_7); break; }
+    default: {}
+  };
+  // Димитриевская родительская суббота.
+  dd = {10,25};
+  do {
+    if(dd.wd() == 6 && dd.d() != 22) {
+      set_result_value(dd, DIMITRI_SAT);
+      break;
+    }
+    dd--;
+  } while (1);
+  //нед.св.отец перед рождеством от 18до24 дек.
+  dd = {12,24};
+  do {
+    if(dd.wd() == 0) {
+      set_result_value(dd, SUN_BEFORE_CHRISTMAS);
+      break;
+    }
+    dd--;
+  } while (1);
+  //неделя св.праотец от11до17 дек.
+  dd--;
+  do {
+    if(dd.wd() == 0) {
+      set_result_value(dd, HOLY_FOREFATHERS_SUN);
+      break;
+    }
+    dd--;
+  } while (1);
+  // Суббота перед рождеством
+  dd = {12,24};
+  do {
+    if(dd.wd() == 6) {
+      set_result_value(dd, SAT_BEFORE_CHRISTMAS);
+      break;
+    }
+    dd--;
+  } while (1);
+  // Суббота по Рождестве (типикон стр.380)
+  i = DD(year,12,25).wd() ;
+  switch(i) {
+    case 1: { dd = {12,30}; break; }
+    case 2: { dd = {12,29}; break; }
+    case 3: { dd = {12,28}; break; }
+    case 4: { dd = {12,27}; break; }
+    case 5: { dd = {12,26}; break; }
+    default: { dd = {12,31}; }
+  };
+  if ( dd.wd() == 6 ) set_result_value(dd, SAT_AFTER_CHRISTMAS);
+  else set_result_value(dd, SAT_AFTER_CHRISTMAS_READINGS);
+  // Неделя по Рождестве Христовом
+  switch(i) {
+    case 1: { dd = {12,31}; break; }
+    case 2: { dd = {12,30}; break; }
+    case 3: { dd = {12,29}; break; }
+    case 4: { dd = {12,28}; break; }
+    case 5: { dd = {12,27}; break; }
+    default: { dd = {12,26}; }
+  };
+  if ( dd.wd() == 0 ) set_result_values(dd, {SUN_AFTER_CHRISTMAS, SAINTS_JOSEPH_DAVID_JAMES});
+  else set_result_values(dd, {SUN_AFTER_CHRISTMAS_READINGS, SAINTS_JOSEPH_DAVID_JAMES});
+  // Суббота пред Богоявлением (типикон стр.380)
+  if(i==0 || i==1) {
+    dd = (i == 1) ? {12 ,30} : {12 ,31} ;
+    if (dd.wd() == 6) set_result_value(dd, SAT_BEFORE_BAPTISM);
+    else set_result_value(dd, SAT_BEFORE_BAPTISM_READINGS);
+  }
+  i = DD ((year==1)?(GI_LENGTH):(year-1), 12, 25).wd() ;
+  if(!(i==0 || i==1)) {
+    switch(i) {
+      case 2: { dd = {1 ,5}; break; }
+      case 3: { dd = {1 ,4}; break; }
+      case 4: { dd = {1 ,3}; break; }
+      case 5: { dd = {1 ,2}; break; }
+      default: { dd = {1 ,1}; }
+    };
+    if (dd.wd() == 6) set_result_value(dd, SAT_BEFORE_BAPTISM);
+    else set_result_value(dd, SAT_BEFORE_BAPTISM_READINGS);
+  }
+  // неделя пред Богоявлением (типикон стр.380)
+  switch(i) {
+    case 3: { dd = {1 ,5}; break; }
+    case 4: { dd = {1 ,4}; break; }
+    case 5: { dd = {1 ,3}; break; }
+    case 6: { dd = {1 ,2}; break; }
+    default: { dd = {1 ,1}; }
+  };
+  if (dd.wd() == 0) set_result_value(dd, SUN_BEFORE_BAPTISM);
+  else set_result_value(dd, SUN_BEFORE_BAPTISM_READINGS);
+  //Суббота пo Богоявление
+  dd = {1 ,7};
+  do {
+    if(dd.wd() == 6) {
+      set_result_value(dd, SAT_AFTER_BAPTISM);
+      break;
+    }
+    dd++;
+  } while (1);
+  //неделя пo Богоявление
+  dd = {1 ,7};
+  do {
+    if(dd.wd() == 0) {
+      set_result_value(dd, SUN_AFTER_BAPTISM);
+      break;
+    }
+    dd++;
+  } while (1);
+  //
+
 
 
 
