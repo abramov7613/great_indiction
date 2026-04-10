@@ -575,7 +575,40 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
     }
     dd++;
   } while (1);
-  //
+  // Собор новомучеников и исповедников Церкви Русской
+  dd = {1,25};
+  switch (dd.wd()) {
+    case 0: {
+      set_result_value(dd, NEW_MARTYRS_OF_RUSSIA);
+    }
+    break;
+    case 1: { }
+    case 2: { }
+    case 3: {
+      do {
+        dd--;
+        if(dd.wd()==0) {
+          set_result_value(dd, NEW_MARTYRS_OF_RUSSIA);
+          break;
+        }
+      } while(1);
+    }
+    break;
+    case 4: { }
+    case 5: { }
+    case 6: {
+      do {
+        dd++;
+        if(dd.wd()==0) {
+          set_result_value(dd, NEW_MARTYRS_OF_RUSSIA);
+          break;
+        }
+      } while(1);
+    }
+    break;
+    default: {}
+  };
+  //...
 
 
 
