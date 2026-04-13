@@ -286,7 +286,7 @@ consteval int calc_apostol_fast_length_for(const int year_number_in_great_indict
   check_year_number(y) ;
   const int x1 = days_count_from_1jan_to(y, easter_dates_array[y-1]) ;
   const int x2 = days_count_from_1jan_to(y, {6,29}) ;
-  return x2 - x1 - 56;
+  return x2 - x1 - 57;
 }
 
 
