@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: compile
+name: build-and-test
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -8,8 +8,7 @@ on: [workflow_dispatch, push]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  go:
+  job1:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -20,7 +19,16 @@ jobs:
       with:
           fetch-depth: 0
 
-    - name: compile
+    - name: build
       run: |
         gcc --version
-        gcc -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=800000000  great_indiction.cpp
+        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 -fconstexpr-ops-limit=800000000  great_indiction.cpp
+        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 test01.cpp
+        gcc test01.o great_indiction.o -o test01
+        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 test02.cpp
+        gcc test01.o great_indiction.o -o test02
+
+    - name: test
+      run: |
+        test01
+        test02

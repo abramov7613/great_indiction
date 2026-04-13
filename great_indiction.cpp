@@ -668,8 +668,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   else set_result_values(dd, {SUN_AFTER_CHRISTMAS_READINGS, SAINTS_JOSEPH_DAVID_JAMES});
   // Суббота пред Богоявлением (типикон стр.380)
   if(i==0 || i==1) {
-    if (i == 1) dd.assign({12 ,30});
-    else dd.assign({12 ,31});
+    if (i == 1) dd = {12 ,30}; else dd = {12 ,31};
     if (dd.wd() == 6) set_result_value(dd, SAT_BEFORE_BAPTISM);
     else set_result_value(dd, SAT_BEFORE_BAPTISM_READINGS);
   }
