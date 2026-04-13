@@ -22,11 +22,9 @@ jobs:
     - name: build
       run: |
         gcc --version
-        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 -fconstexpr-ops-limit=800000000  great_indiction.cpp
-        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 test01.cpp
-        gcc test01.o great_indiction.o -o test01
-        gcc -Wall -Wextra -Werror -DNDEBUG -std=c++23 -c -O2 test02.cpp
-        gcc test01.o great_indiction.o -o test02
+        g++ -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=800000000  great_indiction.cpp
+        g++ -Wall -Wextra -Werror -std=c++23 test01.cpp great_indiction.o -o test01
+        g++ -Wall -Wextra -Werror -std=c++23 test02.cpp great_indiction.o -o test02
 
     - name: test
       run: |
