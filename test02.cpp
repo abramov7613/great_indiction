@@ -542,8 +542,10 @@ namespace gi = great_indiction;
 int main(void)
 {
   for (unsigned i=0; i<arr.size(); ++i) {
-    if (arr[i] != gi::apostol_fast_length(i+1)) {
-      std::cout << "apostol_fast_length test failed with value = " << i+1 << '\n';
+    int x = gi::apostol_fast_length(i+1) ;
+    if (arr[i] != x) {
+      std::cout << "apostol_fast_length test failed with value = " << i+1 << '\n'
+        << arr[i] << " != " << x << '\n' ;
       return -1;
     }
   }

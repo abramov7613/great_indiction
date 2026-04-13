@@ -545,7 +545,8 @@ int main(void)
   for (unsigned i=0; i<arr.size(); ++i) {
     auto d = gi::easter_date(i+1) ;
     if (d != arr[i]) {
-      std::cout << "easter_date test failed with value = " << i+1 << '\n';
+      std::cout << "easter_date test failed with value = " << i+1 << '\n'
+        << d.first << '.' << d.second << " != " << arr[i].first << '.' << arr[i].second << '\n' ;
       return -1;
     }
   }
