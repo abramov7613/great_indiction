@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace gi = great_indiction;
-using MD = gi::MothDay ;
+using MD = gi::MonthDay ;
 
 constexpr std::array arr = {
   MD(4,7),
