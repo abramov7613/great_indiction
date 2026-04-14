@@ -757,12 +757,11 @@ int apostol_fast_length(const int i)
 bool is_date_of(const int y, const MonthDay d, const DayProperty p)
 {
   check_date(y, d);
-  const auto& day_properties = great_indiction_properties_array[y][d.first][d.second] ;
+  const auto& day_properties = great_indiction_properties_array[y-1][d.first-1][d.second-1] ;
   if (day_properties) {
     std::cout << day_properties.value() << '\n';
     return day_properties.value().test(static_cast<unsigned>(p));
   }
-  else throw std::runtime_error("XXX");
   return false;
 }
 
