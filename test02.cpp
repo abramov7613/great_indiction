@@ -544,7 +544,7 @@ int main(void)
   for (unsigned i=0; i<arr.size(); ++i) {
     int x = gi::apostol_fast_length(i+1) ;
     if (arr[i] != x) {
-      std::cout << "apostol_fast_length test failed with value = " << i+1 << '\n'
+      std::cout << "apostol_fast_length("<<(i+1)<<") test failed with values: \n"
         << arr[i] << " != " << x << '\n' ;
       return -1;
     }

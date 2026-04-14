@@ -554,7 +554,7 @@ int main(void)
       std::cout << "easter_date("<< y <<") test failed with values: \n" << d << " != " << arr[i] << '\n' ;
       return -1;
     }
-    if (!gi::is_date_of(y, arr[i], PASHA)) {
+    if (!gi::is_date_of(y, arr[i], gi::PASHA)) {
       std::cout << "is_date_of("<< y << ',' << arr[i] <<") test failed \n" ;
       return -1;
     }
