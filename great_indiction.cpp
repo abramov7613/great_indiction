@@ -817,11 +817,10 @@ consteval const auto calc_dates_array_by_property()
   std::array<YearDatesByProperty, GI_LENGTH> result;
   auto find_date_by = [](const int year_n, const DayProperty p) consteval {
     auto& year_properties = great_indiction_properties_array[year_n - 1] ;
-    for (unsigned i=0; i<12; ++i) for (unsigned j=0; j<month_length(i+1, is_leap(year_n)); ++j) {
+    for (int i=0; i<12; ++i) for (int j=0; j<month_length(i+1, is_leap(year_n)); ++j) {
       auto& day_properties = year_properties[i][j];
       if (day_properties){
-        int m = i+1, d = j+1;
-        if (day_properties.value().test(static_cast<unsigned>(p))) return MonthDay(m,d);
+        if (day_properties.value().test(static_cast<unsigned>(p))) return MonthDay(i+1,j+1);
       }
     }
     return MonthDay(0,0);
@@ -829,7 +828,7 @@ consteval const auto calc_dates_array_by_property()
   auto properties_sz = static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_) ;
   for (unsigned i=0; i<result.size(); ++i) for (unsigned p=0; p < properties_sz; ++p) {
     if (auto date = find_date_by(i+1, static_cast<DayProperty>(p)); date != MonthDay{0,0}) result[i][p] = date;
-    else throw "XXX34985762J";
+    else throw std::runtime_error("XXX34985762J");
   }
   return result;
 }
