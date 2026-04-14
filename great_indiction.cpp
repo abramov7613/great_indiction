@@ -31,7 +31,6 @@
 #include <stdexcept>
 #include <bitset>
 #include <optional>
-#include <iostream>
 
 
 namespace {
@@ -713,7 +712,31 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
     }
     dd++;
   } while (1);
-  //
+  //Собор 3-x свят. Василия Великого, Григория Богослова и Иоанна Златоустого.
+  dd = {1, 30};
+  if(dd==memorial_sat || dd==dread_judgement.icp(3) || dd==dread_judgement.icp(5)) dd--;
+  set_result_value(dd, CONVENTION_OF_3_HIERARCHS);
+  // Первое и второе Обре́тение главы Иоанна Предтечи
+  dd = {2, 24};
+  if( dd == memorial_sat ||
+      dd == dread_judgement.icp(3) ||
+      dd == dread_judgement.icp(5) ||
+      dd == lent_begin ) dd--;
+  if(dd>=lent_begin.icp(1) && dd<=lent_begin.icp(4)) dd = lent_begin.icp(5);
+  set_result_value(dd, JOHN_BAPTIST_HEAD_DISCOVERY_1_2);
+  // Третье обре́тение главы Предтечи и Крестителя Господня Иоанна
+  dd = {5, 25};
+  if(dd==pentecost.dcp(1) || dd==all_saints) dd = {5, 23};
+  if(dd==pentecost.icp(1)) dd = {5, 26};
+  if(dd==pentecost) dd = {5, 22};
+  set_result_value(dd, JOHN_BAPTIST_HEAD_DISCOVERY_3);
+  // Святых сорока́ мучеников, в Севастийском е́зере мучившихся.
+  dd = {3, 9};
+  if(dd==lent_begin.icp(23)) dd = {3, 8};
+  if(dd==lent_begin.icp(31)) dd = {3, 7};
+  if(dd==palm_sun.dcp(1)) dd = {3, 10};
+  if(dd>=lent_begin && dd<=lent_begin.icp(4)) dd = lent_begin.icp(5);
+  set_result_value(dd, HOLY_FORTY_MARTYRS_OF_SEBASTE);
 
 
 
@@ -759,7 +782,6 @@ bool is_date_of(const int y, const MonthDay d, const DayProperty p)
   check_date(y, d);
   const auto& day_properties = great_indiction_properties_array[y-1][d.first-1][d.second-1] ;
   if (day_properties) {
-    std::cout << day_properties.value() << '\n';
     return day_properties.value().test(static_cast<unsigned>(p));
   }
   return false;
