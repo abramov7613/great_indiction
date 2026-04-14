@@ -828,7 +828,6 @@ consteval const auto calc_dates_array_by_property()
   auto properties_sz = static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_) ;
   for (unsigned i=0; i<result.size(); ++i) for (unsigned p=0; p < properties_sz; ++p) {
     if (auto date = find_date_by(i+1, static_cast<DayProperty>(p)); date != MonthDay{0,0}) result[i][p] = date;
-    else throw std::runtime_error("XXX34985762J");
   }
   return result;
 }
