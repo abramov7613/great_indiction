@@ -540,13 +540,22 @@ constexpr std::array arr = {
   MD(4,15),
 };
 
+std::ostream& operator<<(std::ostream& os, const MD& md)
+{
+  return os <<"MonthDay("<< md.first << ',' << md.second << ')';
+}
+
 int main(void)
 {
   for (unsigned i=0; i<arr.size(); ++i) {
-    auto d = gi::easter_date(i+1) ;
+    unsigned y = i+1;
+    auto d = gi::easter_date(y) ;
     if (d != arr[i]) {
-      std::cout << "easter_date test failed with value = " << i+1 << '\n'
-        << d.first << '.' << d.second << " != " << arr[i].first << '.' << arr[i].second << '\n' ;
+      std::cout << "easter_date("<< y <<") test failed with values: \n" << d << " != " << arr[i] << '\n' ;
+      return -1;
+    }
+    if (!gi::is_date_of(y, arr[i], PASHA)) {
+      std::cout << "is_date_of("<< y << ',' << arr[i] <<") test failed \n" ;
       return -1;
     }
   }
