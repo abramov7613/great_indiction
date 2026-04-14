@@ -555,7 +555,7 @@ int main(void)
       return -1;
     }
     if (!gi::is_date_of(y, arr[i], gi::PASHA)) {
-      std::cout << "is_date_of("<< y << ',' << arr[i] <<") test failed \n" ;
+      std::cout << "is_date_of("<< y << ',' << arr[i] <<",PASHA) test failed \n" ;
       return -1;
     }
   }
