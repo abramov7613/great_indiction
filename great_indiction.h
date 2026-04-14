@@ -411,5 +411,6 @@ using MonthDay = std::pair<int,int> ;
 MonthDay easter_date(const int year_number_in_great_indiction) ;
 int apostol_fast_length(const int year_number_in_great_indiction) ;
 bool is_date_of(const int year_number_in_great_indiction, const MonthDay date, const DayProperty property) ;
+MonthDay find_date(const int year_number_in_great_indiction, const DayProperty property) ;
 
 } // namespace great_indiction

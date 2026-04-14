@@ -39,6 +39,7 @@ using namespace great_indiction ;
 using DayProperties = std::optional<std::bitset<static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)>> ;
 using MonthProperties = std::array<DayProperties, 31> ;
 using YearProperties = std::array<MonthProperties, 12> ;
+using YearDatesByProperty = std::array<MonthDay, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
 
 
 constexpr auto GI_LENGTH = 532 ;
@@ -479,12 +480,12 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   set_result_value(lent_begin.icp(39), LENT_WEEK6_FRI);
   set_result_value(lent_begin.icp(40), LENT_WEEK6_SAT);
   set_result_value(palm_sun          , LENT_SUN7);
-  set_result_value(lent_begin.icp(42), LENT_WEEK7_MON);
-  set_result_value(lent_begin.icp(43), LENT_WEEK7_TUE);
-  set_result_value(lent_begin.icp(44), LENT_WEEK7_WED);
-  set_result_value(lent_begin.icp(45), LENT_WEEK7_THU);
-  set_result_value(lent_begin.icp(46), LENT_WEEK7_FRI);
-  set_result_value(lent_begin.icp(47), LENT_WEEK7_SAT);
+  set_result_value(palm_sun.icp(1), LENT_WEEK7_MON);
+  set_result_value(palm_sun.icp(2), LENT_WEEK7_TUE);
+  set_result_value(palm_sun.icp(3), LENT_WEEK7_WED);
+  set_result_value(palm_sun.icp(4), LENT_WEEK7_THU);
+  set_result_value(palm_sun.icp(5), LENT_WEEK7_FRI);
+  set_result_value(palm_sun.icp(6), LENT_WEEK7_SAT);
   set_result_value(pasha, EASTER);
   set_result_value(pasha.icp(1), BRIGHT_MON);
   set_result_value(pasha.icp(2), BRIGHT_TUE);
@@ -737,9 +738,62 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   if(dd==palm_sun.dcp(1)) dd = {3, 10};
   if(dd>=lent_begin && dd<=lent_begin.icp(4)) dd = lent_begin.icp(5);
   set_result_value(dd, HOLY_FORTY_MARTYRS_OF_SEBASTE);
-
-
-
+  // Предпразднство Благовещения Пресвятой Богородицы.
+  dd = {3, 24};
+  t1 = palm_sun.icp(1);
+  t2 = {3, 25};
+  if(t2<t1) {
+    if(dd==palm_sun.dcp(1)) dd = {3, 22};
+    if(dd==lent_begin.icp(31)) dd = {3, 23};
+    if(dd==lent_begin.icp(29)) dd = {3, 23};
+    set_result_value(dd, FOREFEAST_GOD_MOTHER_ANNUNCIATION);
+  }
+  //отдание праздника Благовещ́ение
+  dd = {3, 26};
+  t1 = palm_sun.dcp(1);
+  if(dd<t1) {
+    set_result_value(dd, ENDOF_GOD_MOTHER_ANNUNCIATION);
+  }
+  //Вмч. Гео́ргия Победоно́сца. Мц. царицы Александры
+  dd = {4, 23};
+  t1 = palm_sun.icp(1);
+  t2 = pasha;
+  if(dd>=t1 && dd<=t2) dd = pasha.icp(1);
+  set_result_value(dd, HOLY_GREAT_MARTYR_GEORGE);
+  //Святых отец 6-и вселенских соборов
+  dd = {7, 16};
+  switch (dd.wd()) {
+    case 0: {
+      set_result_value(dd, FATHERS_ECU_COUNCIL_1_6);
+    }
+    break;
+    case 1: { }
+    case 2: { }
+    case 3: {
+      do {
+        dd--;
+        if(dd.wd()==0) {
+          set_result_value(dd, FATHERS_ECU_COUNCIL_1_6);
+          break;
+        }
+      } while(1);
+    }
+    break;
+    case 4: { }
+    case 5: { }
+    case 6: {
+      do {
+        dd++;
+        if(dd.wd()==0) {
+          set_result_value(dd, FATHERS_ECU_COUNCIL_1_6);
+          break;
+        }
+      } while(1);
+    }
+    break;
+    default: { }
+  };
+  //
 
   //..
   return result;
@@ -756,6 +810,35 @@ consteval const auto calc_great_indiction_properties_array()
 
 
 constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
+
+
+consteval const auto calc_dates_array_by_property()
+{
+  std::array<YearDatesByProperty, GI_LENGTH> result;
+  auto find_date_by = [](const int year_n, const DayProperty p) consteval {
+    auto& year_properties = great_indiction_properties_array[year_n - 1] ;
+    for (unsigned i=0; i<12; ++i) for (unsigned j=0; j<month_length(i+1, is_leap(year_n)); ++j) {
+      auto& day_properties = year_properties[i][j];
+      if (day_properties){
+        int m = i+1, d = j+1;
+        if (day_properties.value().test(static_cast<unsigned>(p))) return MonthDay(m,d);
+      }
+    }
+    return MonthDay(0,0);
+  };
+  auto properties_sz = static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_) ;
+  for (unsigned i=0; i<result.size(); ++i) for (unsigned p=0; p < properties_sz; ++p) {
+    if (auto date = find_date_by(i+1, static_cast<DayProperty>(p)); date != MonthDay{0,0}) result[i][p] = date;
+    else throw "XXX34985762J";
+  }
+  return result;
+}
+
+
+// first index    = [year_number_in_great_indiction - 1]
+// second index   = [(DayProperty as unsigned) - 1]
+// value          = MonthDay
+constexpr auto dates_array_by_property = calc_dates_array_by_property() ;
 
 
 } // namespace
@@ -785,6 +868,13 @@ bool is_date_of(const int y, const MonthDay d, const DayProperty p)
     return day_properties.value().test(static_cast<unsigned>(p));
   }
   return false;
+}
+
+
+MonthDay find_date(const int y, const DayProperty p)
+{
+  check_year_number(y) ;
+  return dates_array_by_property[y-1][static_cast<unsigned>(p)];
 }
 
 
