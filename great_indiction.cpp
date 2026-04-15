@@ -306,7 +306,7 @@ constexpr auto apostol_fast_length_array = calc_apostol_fast_length_array() ;
 // first index    = [year_number_in_great_indiction - 1]
 // second index   = [DayProperty as unsigned]
 // value          = array of dates in MonthDay type
-constinit std::array<YearDatesByProperty, GI_LENGTH> dates_array_by_property ;
+constexpr std::array<YearDatesByProperty, GI_LENGTH> dates_array_by_property ;
 
 
 consteval YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
@@ -320,7 +320,8 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   }
   auto set_result_value = [&result, year](const DD& d, const DayProperty value) consteval {
     result[d.m()-1][d.d()-1].value().set(static_cast<unsigned>(value));
-    auto& dates_arr = dates_array_by_property[year-1][static_cast<unsigned>(value)] ;
+    auto& c = const_cast<decltype(dates_array_by_property)&>(dates_array_by_property) ;
+    auto& dates_arr = c[year-1][static_cast<unsigned>(value)] ;
     for (unsigned i=0; i<dates_arr.size(); ++i) {
       if (dates_arr[i].first == 0 && dates_arr[i].second == 0) dates_arr[i] = MonthDay(d.m(), d.d()) ;
     }
