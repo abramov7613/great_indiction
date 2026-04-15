@@ -37,13 +37,13 @@
 namespace {
 
 
-template <typename T1,T2> class PR : public std::pair<T1,T2> {
+template <typename T1, typename T2> class PR : public std::pair<T1,T2> {
 public:
   constexpr decltype(auto) operator[](this auto& self, std::size_t idx)
   {
     if (idx==0) return self.first;
     else if (idx==1) return self.second;
-    else throw "invalid index!";
+    else throw std::runtime_error("invalid index!");
   }
 };
 
