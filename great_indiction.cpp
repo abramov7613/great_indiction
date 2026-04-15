@@ -42,7 +42,7 @@ constexpr auto GI_LENGTH = 532 ;
 using DayProperties = std::optional<std::bitset<static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)>> ;
 using MonthProperties = std::array<DayProperties, 31> ;
 using YearProperties = std::array<MonthProperties, 12> ;
-using YearDatesByProperty = std::array<std::array<MonthDay,20>, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
+using YearDatesByProperty = std::array<std::array<MonthDay,64>, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
 using GreatIndictionProperties = std::array<std::pair<YearProperties,YearDatesByProperty>, GI_LENGTH> ;
 
 
