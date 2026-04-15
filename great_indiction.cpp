@@ -31,6 +31,7 @@
 #include <stdexcept>
 #include <bitset>
 #include <optional>
+#include <algorithm>
 
 
 namespace {
@@ -39,7 +40,7 @@ using namespace great_indiction ;
 using DayProperties = std::optional<std::bitset<static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)>> ;
 using MonthProperties = std::array<DayProperties, 31> ;
 using YearProperties = std::array<MonthProperties, 12> ;
-using YearDatesByProperty = std::array<MonthDay, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
+using YearDatesByProperty = std::array<std::array<MonthDay,20>, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
 
 
 constexpr auto GI_LENGTH = 532 ;
@@ -269,15 +270,13 @@ consteval auto calc_easter_for(const int year_number_in_great_indiction)
 
 consteval const auto calc_easter_dates_array()
 {
-  // index+1 = number of year in great indiction
-  // first = month of orthodox easter
-  // second = day of orthodox easter
   std::array<MonthDay, GI_LENGTH> result;
   for (size_t i=0; i<result.size(); ++i) result[i] = calc_easter_for(i+1) ;
   return result;
 }
 
-
+// index    = [year_number_in_great_indiction - 1]
+// value    = easter date as MonthDay
 constexpr auto easter_dates_array = calc_easter_dates_array();
 
 
@@ -299,8 +298,15 @@ consteval const auto calc_apostol_fast_length_array()
   return result;
 }
 
-
+// index    = [year_number_in_great_indiction - 1]
+// value    = apostol fast length as int
 constexpr auto apostol_fast_length_array = calc_apostol_fast_length_array() ;
+
+
+// first index    = [year_number_in_great_indiction - 1]
+// second index   = [DayProperty as unsigned]
+// value          = array of dates in MonthDay type
+constexpr std::array<YearDatesByProperty, GI_LENGTH> dates_array_by_property ;
 
 
 consteval YearProperties calc_year_properties_for(const int year_number_in_great_indiction)
@@ -312,8 +318,12 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
     if (static_cast<long long>(d) >= month_length(m+1, is_leap(year))) continue ;
     result[m][d].emplace() ;
   }
-  auto set_result_value = [&result](const DD& d, const DayProperty value) consteval {
+  auto set_result_value = [&result, year](const DD& d, const DayProperty value) consteval {
     result[d.m()-1][d.d()-1].value().set(static_cast<unsigned>(value));
+    auto& dates_arr = dates_array_by_property[year-1][static_cast<unsigned>(value)] ;
+    for (unsigned i=0; i<dates_arr.size(); ++i) {
+      if (dates_arr[i].first == 0 && dates_arr[i].second == 0) dates_arr[i] = MonthDay(d.m(), d.d()) ;
+    }
   };
   auto set_result_values = [&set_result_value]
                              (const DD& d, const std::initializer_list<DayProperty> values) consteval
@@ -336,6 +346,7 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
      t1 (publican_pharisee.icp(13));
   if (dd >= lent_begin) dd = forgiveness;
   set_result_value(dd, GOD_MEETING);
+  auto const god_meeting = dd;
   if (dd == t1) t1 = publican_pharisee.icp(6);
   set_result_value(t1, MEMORIAL_SAT);
   auto const memorial_sat = t1;
@@ -407,26 +418,6 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
       i++;
     } while (t2 != t3);
   }
-  // Двунадесятые переходящие праздники
-  set_result_value(palm_sun,       MOVEABLE_FEAST);
-  set_result_value(ascension,      MOVEABLE_FEAST);
-  set_result_value(pentecost,      MOVEABLE_FEAST);
-  // Двунадесятые непереходящие праздники
-  set_result_value(dd,               IMMOVEABLE_FEAST);
-  set_result_value(DD{year,1,6},     IMMOVEABLE_FEAST);
-  set_result_value(DD{year,3,25},    IMMOVEABLE_FEAST);
-  set_result_value(DD{year,8,6},     IMMOVEABLE_FEAST);
-  set_result_value(DD{year,8,15},    IMMOVEABLE_FEAST);
-  set_result_value(DD{year,9,8},     IMMOVEABLE_FEAST);
-  set_result_value(DD{year,9,14},    IMMOVEABLE_FEAST);
-  set_result_value(DD{year,11,21},   IMMOVEABLE_FEAST);
-  set_result_value(DD{year,12,25},   IMMOVEABLE_FEAST);
-  // великие праздники
-  set_result_value(DD{year,1,1},    GREAT_FEAST);
-  set_result_value(DD{year,6,24},   GREAT_FEAST);
-  set_result_value(DD{year,6,29},   GREAT_FEAST);
-  set_result_value(DD{year,8,29},   GREAT_FEAST);
-  set_result_value(DD{year,10,1},   GREAT_FEAST);
   // от Недели о мытаре́ и фарисе́е до дня Всех святых.
   set_result_value(publican_pharisee        , PUBLICAN_PHARISEE_SUN);
   set_result_value(prodigal_son             , PRODIGAL_SON_SUN);
@@ -795,7 +786,29 @@ consteval YearProperties calc_year_properties_for(const int year_number_in_great
   };
   //
 
-  //..
+
+
+
+  // Двунадесятые переходящие праздники
+  set_result_value(palm_sun,       MOVEABLE_FEAST);
+  set_result_value(ascension,      MOVEABLE_FEAST);
+  set_result_value(pentecost,      MOVEABLE_FEAST);
+  // Двунадесятые непереходящие праздники
+  set_result_value(god_meeting,      IMMOVEABLE_FEAST);
+  set_result_value(DD{year,1,6},     IMMOVEABLE_FEAST);
+  set_result_value(DD{year,3,25},    IMMOVEABLE_FEAST);
+  set_result_value(DD{year,8,6},     IMMOVEABLE_FEAST);
+  set_result_value(DD{year,8,15},    IMMOVEABLE_FEAST);
+  set_result_value(DD{year,9,8},     IMMOVEABLE_FEAST);
+  set_result_value(DD{year,9,14},    IMMOVEABLE_FEAST);
+  set_result_value(DD{year,11,21},   IMMOVEABLE_FEAST);
+  set_result_value(DD{year,12,25},   IMMOVEABLE_FEAST);
+  // великие праздники
+  set_result_value(DD{year,1,1},    GREAT_FEAST);
+  set_result_value(DD{year,6,24},   GREAT_FEAST);
+  set_result_value(DD{year,6,29},   GREAT_FEAST);
+  set_result_value(DD{year,8,29},   GREAT_FEAST);
+  set_result_value(DD{year,10,1},   GREAT_FEAST);
   return result;
 }//consteval YearProperties calc_year_properties_for(const int ...
 
@@ -810,41 +823,6 @@ consteval const auto calc_great_indiction_properties_array()
 
 
 constexpr auto great_indiction_properties_array = calc_great_indiction_properties_array() ;
-
-
-constexpr bool is_date_of_(const int y, const MonthDay d, const DayProperty p)
-{
-  check_date(y, d);
-  const auto& day_properties = great_indiction_properties_array[y-1][d.first-1][d.second-1] ;
-  if (day_properties) {
-    return day_properties.value().test(static_cast<unsigned>(p));
-  }
-  return false;
-}
-
-
-consteval const auto calc_dates_array_by_property()
-{
-  std::array<YearDatesByProperty, GI_LENGTH> result;
-  auto maxp = static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_) ;
-  for (unsigned y=0; y<GI_LENGTH; ++y) {
-    for (int m=0; m<12; ++m) {
-      auto maxd = month_length(m+1, is_leap(y+1)) ;
-      for (int d=0; d<maxd; ++d) {
-        for (unsigned p=0; p<maxp; ++p) {
-          if (is_date_of_(y+1, {m+1,d+1}, static_cast<DayProperty>(p))) result[y][p] = MonthDay{m+1,d+1} ;
-        }
-      }
-    }
-  }
-  return result;
-}
-
-
-// first index    = [year_number_in_great_indiction - 1]
-// second index   = [DayProperty as unsigned]
-// value          = MonthDay
-constexpr auto dates_array_by_property = calc_dates_array_by_property() ;
 
 
 } // namespace
@@ -868,14 +846,32 @@ int apostol_fast_length(const int i)
 
 bool is_date_of(const int y, const MonthDay d, const DayProperty p)
 {
-  return is_date_of_(y, d, p);
+  check_date(y, d);
+  const auto& day_properties = great_indiction_properties_array[y-1][d.first-1][d.second-1] ;
+  if (day_properties) {
+    return day_properties.value().test(static_cast<unsigned>(p));
+  }
+  return false;
 }
 
 
 MonthDay find_date(const int y, const DayProperty p)
 {
   check_year_number(y) ;
-  return dates_array_by_property[y-1][static_cast<unsigned>(p)];
+  return dates_array_by_property[y-1][static_cast<unsigned>(p)][0] ;
+}
+
+
+std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
+{
+  check_year_number(y) ;
+  std::vector<MonthDay> result;
+  auto& ar = dates_array_by_property[y-1][static_cast<unsigned>(p)] ;
+  std::copy_if(ar.begin(),
+               ar.end(),
+               std::back_inserter(result),
+               [empty=MonthDay(0,0)](const auto& e){ return e != empty; }) ;
+  return result;
 }
 
 
