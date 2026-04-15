@@ -37,24 +37,13 @@
 namespace {
 
 
-template <typename T1, typename T2> class PR : public std::pair<T1,T2> {
-public:
-  constexpr decltype(auto) operator[](this auto& self, std::size_t idx)
-  {
-    if (idx==0) return self.first;
-    else if (idx==1) return self.second;
-    else throw std::runtime_error("invalid index!");
-  }
-};
-
-
 using namespace great_indiction ;
 constexpr auto GI_LENGTH = 532 ;
 using DayProperties = std::optional<std::bitset<static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)>> ;
 using MonthProperties = std::array<DayProperties, 31> ;
 using YearProperties = std::array<MonthProperties, 12> ;
 using YearDatesByProperty = std::array<std::array<MonthDay,20>, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> ;
-using GreatIndictionProperties = std::array<PR<YearProperties,YearDatesByProperty>, GI_LENGTH> ;
+using GreatIndictionProperties = std::array<std::pair<YearProperties,YearDatesByProperty>, GI_LENGTH> ;
 
 
 constexpr void check_year_number(const int year_number_in_great_indiction)
