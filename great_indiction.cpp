@@ -303,12 +303,6 @@ consteval const auto calc_apostol_fast_length_array()
 constexpr auto apostol_fast_length_array = calc_apostol_fast_length_array() ;
 
 
-// first index    = [year_number_in_great_indiction - 1]
-// second index   = [DayProperty as unsigned]
-// value          = array of dates in MonthDay type
-constexpr std::array<YearDatesByProperty, GI_LENGTH> dates_array_by_property ;
-
-
 consteval GreatIndictionProperties::value_type calc_year_properties_for(const int year_number_in_great_indiction)
 {
   const int year = year_number_in_great_indiction ;
