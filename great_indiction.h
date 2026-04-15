@@ -92,7 +92,7 @@ enum class DayProperty {
   PENTECOST_FRI                     ,///< Пятница Пятидесятницы.
   PENTECOST_SAT                     ,///< Суббота Пятидесятницы. Отдание праздника Пятидесятницы.
   SUN1_AFTER_PENTECOST              ,///< Неделя 1-я по Пятидесятнице, Всех святых.
-  SUN2_AFTER_PENTECOST              ,///< Неделя 2-я по Пятидесятнице.
+  SUN2_AFTER_PENTECOST              ,///< Неделя 2-я по Пятидесятнице. Всех святых, в земле Русской просиявших.
   SUN3_AFTER_PENTECOST              ,///< Неделя 3-я по Пятидесятнице.
   SUN4_AFTER_PENTECOST              ,///< Неделя 4-я по Пятидесятнице.
   SAT_BEFORE_EXALTATION             ,///< Суббота пред Воздвижением.
@@ -192,6 +192,16 @@ enum class DayProperty {
   ENDOF_GOD_MOTHER_ANNUNCIATION     ,///< Отдание праздника Благовещения Пресвятой Богородицы.
   HOLY_GREAT_MARTYR_GEORGE          ,///< Вмч. Гео́ргия Победоно́сца. Мц. царицы Александры.
   FATHERS_ECU_COUNCIL_1_6           ,///< Память святых отцов шести Вселенских Соборов.
+
+  GREAT_LENT                        ,///< один из дней великого поста
+  APOSTOL_LENT                      ,///< один из дней Петрова поста
+  CHRISTMAS_LENT                    ,///< один из дней Рождественского поста
+  ASSUMPTION_LENT                   ,///< один из дней Успенского поста
+  SOLID_WEEK_BRIGHT                 ,///< один из дней сплошной седмицы. Светлая
+  SOLID_WEEK_CHRISTMAS              ,///< один из дней сплошной седмицы. Рождественская
+  SOLID_WEEK_PENTECOST              ,///< один из дней сплошной седмицы. Троицкая
+  SOLID_WEEK_CHEESE                 ,///< один из дней сплошной седмицы. Сырная (Масленица)
+  SOLID_WEEK_PUBLICAN_PHARISEE      ,///< один из дней сплошной седмицы. Мытаря и фарисея
   DAY_PROPERTY_ENUM_SIZE_
 }; // enum class DayProperty
 using enum DayProperty ;
@@ -274,6 +284,7 @@ constexpr auto P_FRI = PENTECOST_FRI  ;
 constexpr auto P_SAT = PENTECOST_SAT  ;
 constexpr auto ENDOF_PENTECOST = PENTECOST_SAT  ;
 constexpr auto ALL_SAINTS = SUN1_AFTER_PENTECOST ;
+constexpr auto ALL_RUS_SAINTS = SUN2_AFTER_PENTECOST ;
 constexpr auto SUN1_A_P = SUN1_AFTER_PENTECOST ;
 constexpr auto SUN2_A_P = SUN2_AFTER_PENTECOST ;
 constexpr auto SUN3_A_P = SUN3_AFTER_PENTECOST ;

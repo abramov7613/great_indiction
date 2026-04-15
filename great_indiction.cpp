@@ -315,9 +315,11 @@ consteval GreatIndictionProperties::value_type calc_year_properties_for(const in
   auto set_result_value = [&result, year](const DD& d, const DayProperty value) consteval {
     result.first[d.m()-1][d.d()-1].value().set(static_cast<unsigned>(value));
     auto& dates_arr = result.second[static_cast<unsigned>(value)] ;
-    for (unsigned i=0; i<dates_arr.size(); ++i) {
-      if (dates_arr[i].first == 0 && dates_arr[i].second == 0) dates_arr[i] = MonthDay(d.m(), d.d()) ;
+    for (unsigned i=0; i<dates_arr.size(); ++i) if (dates_arr[i].first == 0 && dates_arr[i].second == 0) {
+      dates_arr[i] = MonthDay(d.m(), d.d()) ;
+      return ;
     }
+    throw "YearDatesByProperty array size is too low";
   };
   auto set_result_values = [&set_result_value]
                              (const DD& d, const std::initializer_list<DayProperty> values) consteval
@@ -423,61 +425,61 @@ consteval GreatIndictionProperties::value_type calc_year_properties_for(const in
   set_result_value(dread_judgement.icp(5)   , CHEESE_FRI);
   set_result_value(dread_judgement.icp(6)   , CHEESE_SAT);
   set_result_value(forgiveness              , CHEESE_SUN);
-  set_result_value(lent_begin               , LENT_WEEK1_MON);
-  set_result_value(lent_begin.icp(1), LENT_WEEK1_TUE);
-  set_result_value(lent_begin.icp(2), LENT_WEEK1_WED);
-  set_result_value(lent_begin.icp(3), LENT_WEEK1_THU);
-  set_result_value(lent_begin.icp(4), LENT_WEEK1_FRI);
-  set_result_value(lent_begin.icp(5), LENT_WEEK1_SAT);
-  set_result_value(lent_begin.icp(6), LENT_SUN1);
-  set_result_value(lent_begin.icp(7), LENT_WEEK2_MON);
-  set_result_value(lent_begin.icp(8), LENT_WEEK2_TUE);
-  set_result_value(lent_begin.icp(9), LENT_WEEK2_WED);
-  set_result_value(lent_begin.icp(10), LENT_WEEK2_THU);
-  set_result_value(lent_begin.icp(11), LENT_WEEK2_FRI);
-  set_result_value(lent_begin.icp(12), LENT_WEEK2_SAT);
-  set_result_value(lent_begin.icp(13), LENT_SUN2);
-  set_result_value(lent_begin.icp(14), LENT_WEEK3_MON);
-  set_result_value(lent_begin.icp(15), LENT_WEEK3_TUE);
-  set_result_value(lent_begin.icp(16), LENT_WEEK3_WED);
-  set_result_value(lent_begin.icp(17), LENT_WEEK3_THU);
-  set_result_value(lent_begin.icp(18), LENT_WEEK3_FRI);
-  set_result_value(lent_begin.icp(19), LENT_WEEK3_SAT);
-  set_result_value(lent_begin.icp(20), LENT_SUN3);
-  set_result_value(lent_begin.icp(21), LENT_WEEK4_MON);
-  set_result_value(lent_begin.icp(22), LENT_WEEK4_TUE);
-  set_result_value(lent_begin.icp(23), LENT_WEEK4_WED);
-  set_result_value(lent_begin.icp(24), LENT_WEEK4_THU);
-  set_result_value(lent_begin.icp(25), LENT_WEEK4_FRI);
-  set_result_value(lent_begin.icp(26), LENT_WEEK4_SAT);
-  set_result_value(lent_begin.icp(27), LENT_SUN4);
-  set_result_value(lent_begin.icp(28), LENT_WEEK5_MON);
-  set_result_value(lent_begin.icp(29), LENT_WEEK5_TUE);
-  set_result_value(lent_begin.icp(30), LENT_WEEK5_WED);
-  set_result_value(lent_begin.icp(31), LENT_WEEK5_THU);
-  set_result_value(lent_begin.icp(32), LENT_WEEK5_FRI);
-  set_result_value(lent_begin.icp(33), LENT_WEEK5_SAT);
-  set_result_value(lent_begin.icp(34), LENT_SUN5);
-  set_result_value(lent_begin.icp(35), LENT_WEEK6_MON);
-  set_result_value(lent_begin.icp(36), LENT_WEEK6_TUE);
-  set_result_value(lent_begin.icp(37), LENT_WEEK6_WED);
-  set_result_value(lent_begin.icp(38), LENT_WEEK6_THU);
-  set_result_value(lent_begin.icp(39), LENT_WEEK6_FRI);
-  set_result_value(lent_begin.icp(40), LENT_WEEK6_SAT);
-  set_result_value(palm_sun          , LENT_SUN7);
-  set_result_value(palm_sun.icp(1), LENT_WEEK7_MON);
-  set_result_value(palm_sun.icp(2), LENT_WEEK7_TUE);
-  set_result_value(palm_sun.icp(3), LENT_WEEK7_WED);
-  set_result_value(palm_sun.icp(4), LENT_WEEK7_THU);
-  set_result_value(palm_sun.icp(5), LENT_WEEK7_FRI);
-  set_result_value(palm_sun.icp(6), LENT_WEEK7_SAT);
-  set_result_value(pasha, EASTER);
-  set_result_value(pasha.icp(1), BRIGHT_MON);
-  set_result_value(pasha.icp(2), BRIGHT_TUE);
-  set_result_value(pasha.icp(3), BRIGHT_WED);
-  set_result_value(pasha.icp(4), BRIGHT_THU);
-  set_result_value(pasha.icp(5), BRIGHT_FRI);
-  set_result_value(pasha.icp(6), BRIGHT_SAT);
+  set_result_values(lent_begin       , {LENT_WEEK1_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(1), {LENT_WEEK1_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(2), {LENT_WEEK1_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(3), {LENT_WEEK1_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(4), {LENT_WEEK1_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(5), {LENT_WEEK1_SAT, GREAT_LENT});
+  set_result_values(lent_begin.icp(6), {LENT_SUN1, GREAT_LENT});
+  set_result_values(lent_begin.icp(7), {LENT_WEEK2_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(8), {LENT_WEEK2_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(9), {LENT_WEEK2_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(10), {LENT_WEEK2_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(11), {LENT_WEEK2_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(12), {LENT_WEEK2_SAT, GREAT_LENT});
+  set_result_values(lent_begin.icp(13), {LENT_SUN2, GREAT_LENT});
+  set_result_values(lent_begin.icp(14), {LENT_WEEK3_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(15), {LENT_WEEK3_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(16), {LENT_WEEK3_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(17), {LENT_WEEK3_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(18), {LENT_WEEK3_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(19), {LENT_WEEK3_SAT, GREAT_LENT});
+  set_result_values(lent_begin.icp(20), {LENT_SUN3, GREAT_LENT});
+  set_result_values(lent_begin.icp(21), {LENT_WEEK4_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(22), {LENT_WEEK4_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(23), {LENT_WEEK4_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(24), {LENT_WEEK4_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(25), {LENT_WEEK4_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(26), {LENT_WEEK4_SAT, GREAT_LENT});
+  set_result_values(lent_begin.icp(27), {LENT_SUN4, GREAT_LENT});
+  set_result_values(lent_begin.icp(28), {LENT_WEEK5_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(29), {LENT_WEEK5_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(30), {LENT_WEEK5_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(31), {LENT_WEEK5_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(32), {LENT_WEEK5_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(33), {LENT_WEEK5_SAT, GREAT_LENT});
+  set_result_values(lent_begin.icp(34), {LENT_SUN5, GREAT_LENT});
+  set_result_values(lent_begin.icp(35), {LENT_WEEK6_MON, GREAT_LENT});
+  set_result_values(lent_begin.icp(36), {LENT_WEEK6_TUE, GREAT_LENT});
+  set_result_values(lent_begin.icp(37), {LENT_WEEK6_WED, GREAT_LENT});
+  set_result_values(lent_begin.icp(38), {LENT_WEEK6_THU, GREAT_LENT});
+  set_result_values(lent_begin.icp(39), {LENT_WEEK6_FRI, GREAT_LENT});
+  set_result_values(lent_begin.icp(40), {LENT_WEEK6_SAT, GREAT_LENT});
+  set_result_values(palm_sun          , {LENT_SUN7, GREAT_LENT});
+  set_result_values(palm_sun.icp(1), {LENT_WEEK7_MON, GREAT_LENT});
+  set_result_values(palm_sun.icp(2), {LENT_WEEK7_TUE, GREAT_LENT});
+  set_result_values(palm_sun.icp(3), {LENT_WEEK7_WED, GREAT_LENT});
+  set_result_values(palm_sun.icp(4), {LENT_WEEK7_THU, GREAT_LENT});
+  set_result_values(palm_sun.icp(5), {LENT_WEEK7_FRI, GREAT_LENT});
+  set_result_values(palm_sun.icp(6), {LENT_WEEK7_SAT, GREAT_LENT});
+  set_result_values(pasha       , {EASTER, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(1), {BRIGHT_MON, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(2), {BRIGHT_TUE, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(3), {BRIGHT_WED, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(4), {BRIGHT_THU, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(5), {BRIGHT_FRI, SOLID_WEEK_BRIGHT});
+  set_result_values(pasha.icp(6), {BRIGHT_SAT, SOLID_WEEK_BRIGHT});
   set_result_value(pasha.icp(7), SUN2_AFTER_EASTER);
   set_result_value(pasha.icp(8), WEEK2_AFTER_EASTER_MON);
   set_result_value(pasha.icp(9), WEEK2_AFTER_EASTER_TUE);
@@ -800,6 +802,31 @@ consteval GreatIndictionProperties::value_type calc_year_properties_for(const in
   set_result_value(DD{year,6,29},   GREAT_FEAST);
   set_result_value(DD{year,8,29},   GREAT_FEAST);
   set_result_value(DD{year,10,1},   GREAT_FEAST);
+  // Петров пост
+  for (auto x = all_saints.icp(1), y = {year,6,29}; x < y; ++x) set_result_value(x, APOSTOL_LENT);
+  // Успенский пост
+  for (DD x(year,8,1), y(year,8,15); x < y; ++x) set_result_value(x, ASSUMPTION_LENT);
+  // Рождественский пост
+  for (DD x(year,11,15), y(year,12,25); x < y; ++x) set_result_value(x, CHRISTMAS_LENT);
+  // Сплошная седмица. Святки
+  set_result_value(DD{year,1,1},     SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,1,2},     SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,1,3},     SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,1,4},     SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,25},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,26},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,27},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,28},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,29},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,30},   SOLID_WEEK_CHRISTMAS);
+  set_result_value(DD{year,12,31},   SOLID_WEEK_CHRISTMAS);
+  // Сплошная седмица. Мытаря и фарисея
+  for (DD x=publican_pharisee, y=prodigal_son; x < y; ++x) set_result_value(x, SOLID_WEEK_PUBLICAN_PHARISEE);
+  // Сплошная седмица. Сырная (Масленица)
+  for (DD x=dread_judgement.icp(1), y=forgiveness; x <= y; ++x) set_result_value(x, SOLID_WEEK_CHEESE);
+  // Сплошная седмица. Троицкая
+  for (DD x=pentecost, y=all_saints; x < y; ++x) set_result_value(x, SOLID_WEEK_PENTECOST);
+
   return result;
 }
 
