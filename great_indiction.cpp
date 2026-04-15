@@ -314,7 +314,7 @@ consteval GreatIndictionProperties::value_type calc_year_properties_for(const in
   const int year = year_number_in_great_indiction ;
   check_year_number(year) ;
   GreatIndictionProperties::value_type result;
-  for (size_t m = 0; m < result.size(); ++m) for (size_t d = 0; d < result[m].size(); ++d) {
+  for (size_t m = 0; m < result.first.size(); ++m) for (size_t d = 0; d < result.first[m].size(); ++d) {
     if (static_cast<long long>(d) >= month_length(m+1, is_leap(year))) continue ;
     result.first[m][d].emplace() ;
   }
