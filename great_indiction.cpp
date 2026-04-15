@@ -803,7 +803,7 @@ consteval GreatIndictionProperties::value_type calc_year_properties_for(const in
   set_result_value(DD{year,8,29},   GREAT_FEAST);
   set_result_value(DD{year,10,1},   GREAT_FEAST);
   // Петров пост
-  for (auto x = all_saints.icp(1), y = {year,6,29}; x < y; ++x) set_result_value(x, APOSTOL_LENT);
+  for (DD x = all_saints.icp(1), y = {year,6,29}; x < y; ++x) set_result_value(x, APOSTOL_LENT);
   // Успенский пост
   for (DD x(year,8,1), y(year,8,15); x < y; ++x) set_result_value(x, ASSUMPTION_LENT);
   // Рождественский пост
