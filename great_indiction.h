@@ -32,9 +32,6 @@
 namespace great_indiction {
 
 enum class DayProperty {
-  MOVEABLE_FEAST                    ,///< Двунадесятые переходящие праздники
-  IMMOVEABLE_FEAST                  ,///< Двунадесятые непереходящие праздники
-  GREAT_FEAST                       ,///< Великие праздники
   EASTER                            ,///< Светлое Христово Воскресение. ПАСХА.
   BRIGHT_MON                        ,///< Понедельник Светлой седмицы.
   BRIGHT_TUE                        ,///< Вторник Светлой седмицы.
@@ -95,20 +92,6 @@ enum class DayProperty {
   SUN2_AFTER_PENTECOST              ,///< Неделя 2-я по Пятидесятнице. Всех святых, в земле Русской просиявших.
   SUN3_AFTER_PENTECOST              ,///< Неделя 3-я по Пятидесятнице.
   SUN4_AFTER_PENTECOST              ,///< Неделя 4-я по Пятидесятнице.
-  SAT_BEFORE_EXALTATION             ,///< Суббота пред Воздвижением.
-  SUN_BEFORE_EXALTATION             ,///< Неделя пред Воздвижением.
-  SAT_AFTER_EXALTATION              ,///< Суббота по Воздвижении.
-  SUN_AFTER_EXALTATION              ,///< Неделя по Воздвижении.
-  FATHERS_ECU_COUNCIL_7             ,///< Память святых отцов VII Вселенского Собора.
-  DIMITRI_SAT                       ,///< Димитриевская родительская суббота.
-  HOLY_FOREFATHERS_SUN              ,///< Неделя святых пра́отец.
-  SAT_BEFORE_CHRISTMAS              ,///< Суббота пред Рождеством Христовым.
-  SUN_BEFORE_CHRISTMAS              ,///< Неделя пред Рождеством Христовым, святых отец.
-  SAT_AFTER_CHRISTMAS               ,///< Суббота по Рождестве Христовом.
-  SAT_AFTER_CHRISTMAS_READINGS      ,///< Чтения субботы по Рождестве Христовом.
-  SUN_AFTER_CHRISTMAS               ,///< Неделя по Рождестве Христовом.
-  SUN_AFTER_CHRISTMAS_READINGS      ,///< Чтения недели по Рождестве Христовом
-  SAINTS_JOSEPH_DAVID_JAMES         ,///< Правв. Иосифа Обручника, Давида царя и Иакова, брата Господня.
   PUBLICAN_PHARISEE_SUN             ,///< Неделя о мытаре́ и фарисе́е.
   PRODIGAL_SON_SUN                  ,///< Неделя о блудном сыне.
   MEMORIAL_SAT                      ,///< Суббота мясопу́стная. Вселенская родительская суббота.
@@ -168,6 +151,20 @@ enum class DayProperty {
   LENT_WEEK7_THU                    ,///< Страстна́я седмица. Великий Четверг. Воспоминание Тайной Ве́чери.
   LENT_WEEK7_FRI                    ,///< Страстна́я седмица. Великая Пятница.
   LENT_WEEK7_SAT                    ,///< Страстна́я седмица. Великая Суббота.
+  SAT_BEFORE_EXALTATION             ,///< Суббота пред Воздвижением.
+  SUN_BEFORE_EXALTATION             ,///< Неделя пред Воздвижением.
+  SAT_AFTER_EXALTATION              ,///< Суббота по Воздвижении.
+  SUN_AFTER_EXALTATION              ,///< Неделя по Воздвижении.
+  FATHERS_ECU_COUNCIL_7             ,///< Память святых отцов VII Вселенского Собора.
+  DIMITRI_SAT                       ,///< Димитриевская родительская суббота.
+  HOLY_FOREFATHERS_SUN              ,///< Неделя святых пра́отец.
+  SAT_BEFORE_CHRISTMAS              ,///< Суббота пред Рождеством Христовым.
+  SUN_BEFORE_CHRISTMAS              ,///< Неделя пред Рождеством Христовым, святых отец.
+  SAT_AFTER_CHRISTMAS               ,///< Суббота по Рождестве Христовом.
+  SAT_AFTER_CHRISTMAS_READINGS      ,///< Чтения субботы по Рождестве Христовом.
+  SUN_AFTER_CHRISTMAS               ,///< Неделя по Рождестве Христовом.
+  SUN_AFTER_CHRISTMAS_READINGS      ,///< Чтения недели по Рождестве Христовом
+  SAINTS_JOSEPH_DAVID_JAMES         ,///< Правв. Иосифа Обручника, Давида царя и Иакова, брата Господня.
   SAT_BEFORE_BAPTISM                ,///< Суббота перед Богоявлением.
   SAT_BEFORE_BAPTISM_READINGS       ,///< Чтения субботы пред Богоявлением.
   SUN_BEFORE_BAPTISM                ,///< Неделя перед Богоявлением.
@@ -193,6 +190,9 @@ enum class DayProperty {
   HOLY_GREAT_MARTYR_GEORGE          ,///< Вмч. Гео́ргия Победоно́сца. Мц. царицы Александры.
   FATHERS_ECU_COUNCIL_1_6           ,///< Память святых отцов шести Вселенских Соборов.
 
+  MOVEABLE_FEAST                    ,///< Двунадесятые переходящие праздники
+  IMMOVEABLE_FEAST                  ,///< Двунадесятые непереходящие праздники
+  GREAT_FEAST                       ,///< Великие праздники
   GREAT_LENT                        ,///< один из дней великого поста
   APOSTOL_LENT                      ,///< один из дней Петрова поста
   CHRISTMAS_LENT                    ,///< один из дней Рождественского поста
