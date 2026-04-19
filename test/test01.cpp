@@ -23,7 +23,7 @@ TEST_CASE("проверка find_date на обработку всех DayProper
   for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y) for (int i=0; i<sz; ++i) {
     DYNAMIC_SECTION("DayProperty index = " << i){
       auto md = gi::find_date(y, static_cast<gi::DayProperty>(i));
-      REQUIRE( md.first>0 && md.second>0 ) ;
+      REQUIRE( ((md.first>0) && (md.second>0)) ) ;
     }
   }
 }
