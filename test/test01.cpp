@@ -1,13 +1,19 @@
 #include "catch_amalgamated.hpp"
 #include "../great_indiction.h"
 #include <array>
+#include <string>
 
 namespace gi = great_indiction;
 using gi::GREAT_INDICTION_LENGTH;
 using MD = gi::MonthDay ;
 
-std::ostream& operator << ( std::ostream& os, MD const& val ) {
-  return os << '{' << val.first << ',' << val.second << '}' ;
+namespace Catch {
+    template<>
+    struct StringMaker<MD> {
+        static std::string convert( MD const& val ) {
+            return "{" + std::to_string(val.first) + ',' + std::to_string(val.second) + '}' ;
+        }
+    };
 }
 
 CATCH_REGISTER_ENUM( gi::DayProperty,
