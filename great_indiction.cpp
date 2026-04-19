@@ -918,7 +918,6 @@ namespace great_indiction {
 MonthDay easter_date(const int y)
 {
   check_year_number(y) ;
-  if (y==3) return {4,11};
   return array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1] ;
 }
 
