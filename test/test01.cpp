@@ -18985,8 +18985,9 @@ TEST_CASE("проверка расчета даты Суббота перед Б
 
 
 TEST_CASE("проверка расчета даты Чтения субботы пред Богоявлением"){
-  for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y)
+  for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y) DYNAMIC_SECTION("year_number = " << y) {
     REQUIRE( gi::find_date(y, gi::SAT_BEFORE_BAPTISM_READINGS) == MD{0,0} ) ;
+  }
 }
 
 
