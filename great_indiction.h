@@ -31,6 +31,8 @@
 
 namespace great_indiction {
 
+constexpr auto GREAT_INDICTION_LENGTH = 532 ;
+
 enum class DayProperty {
   EASTER                            ,///< Светлое Христово Воскресение. ПАСХА.
   BRIGHT_MON                        ,///< Понедельник Светлой седмицы.

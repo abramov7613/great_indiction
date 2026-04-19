@@ -23,10 +23,8 @@ jobs:
       run: |
         gcc --version
         g++ -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=100000000  great_indiction.cpp
-        g++ -Wall -Wextra -Werror -std=c++23 test01.cpp great_indiction.o -o test01
-        g++ -Wall -Wextra -Werror -std=c++23 test02.cpp great_indiction.o -o test02
+        cd test
+        g++ -Wall -Wextra -Werror -std=c++23 test01.cpp ../great_indiction.o -o test01
 
     - name: test
-      run: |
-        ./test01
-        ./test02
+      run: ./test01

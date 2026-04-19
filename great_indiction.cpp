@@ -35,7 +35,6 @@
 namespace {
 
 using namespace great_indiction ;
-constexpr auto GREAT_INDICTION_LENGTH = 532 ;
 
 
 constexpr void check_year_number(const int year_number_in_great_indiction)
