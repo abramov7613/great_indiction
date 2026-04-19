@@ -28,4 +28,6 @@ jobs:
         g++ -Wall -Wextra -Werror -std=c++23 test01.cpp ../great_indiction.o ./catch_amalgamated.o -o test01
 
     - name: test
-      run: ./test01
+      run: |
+        cd test
+        ./test01
