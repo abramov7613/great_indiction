@@ -29,7 +29,7 @@
 #include <array>
 #include <stdexcept>
 #include <algorithm>
-
+#include <functional>
 
 namespace {
 
@@ -960,6 +960,10 @@ std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
 {
   check_year_number(y) ;
   std::vector<MonthDay> result;
+  auto add_ = [&result](int y, DayProperty p, std::function<bool(const int, const MonthDay)> condition){
+    const bool l = is_leap(y) ;
+    for (auto dd = find_date(y,p); condition(y,dd); dd = incd_(dd, l) ) result.push_back(dd) ;
+  };
   switch (p) {
     case MOVEABLE_FEAST:
       result.push_back(array_of_dates_by_property_and_year[static_cast<int>(PALM_SUN)][y-1]) ;
@@ -978,40 +982,31 @@ std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
                 std::back_inserter(result));
       break;
     case GREAT_LENT:
-      for (auto dd = find_date(y,p); date_is_great_lent(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_great_lent);
       break;
     case APOSTOL_LENT:
-      for (auto dd = find_date(y,p); date_is_apostol_lent(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_apostol_lent);
       break;
     case CHRISTMAS_LENT:
-      for (auto dd = find_date(y,p); date_is_christmas_lent(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_christmas_lent);
       break;
     case ASSUMPTION_LENT:
-      for (auto dd = find_date(y,p); date_is_assumption_lent(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_assumption_lent);
       break;
     case SOLID_WEEK_BRIGHT:
-      for (auto dd = find_date(y,p); date_is_solid_week_bright(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_solid_week_bright);
       break;
     case SOLID_WEEK_CHRISTMAS:
-      for (auto dd = find_date(y,p); date_is_solid_week_christmas(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_solid_week_christmas);
       break;
     case SOLID_WEEK_PENTECOST:
-      for (auto dd = find_date(y,p); date_is_solid_week_pentecost(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_solid_week_pentecost);
       break;
     case SOLID_WEEK_CHEESE:
-      for (auto dd = find_date(y,p); date_is_solid_week_cheese(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_solid_week_cheese);
       break;
     case SOLID_WEEK_PUBLICAN_PHARISEE:
-      for (auto dd = find_date(y,p); date_is_solid_week_publican_pharisee(y,dd); dd = incd_(dd, is_leap(y)) )
-        result.push_back(dd) ;
+      add_(y, p, date_is_solid_week_publican_pharisee);
       break;
     default:
       result.push_back(array_of_dates_by_property_and_year[static_cast<int>(p)][y-1]) ;
@@ -1022,7 +1017,6 @@ std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
 
 std::vector<MonthDay> find_all_dates(const int y, std::initializer_list<DayProperty> il)
 {
-  check_year_number(y) ;
   std::vector<MonthDay> result;
   for (auto p: il) {
     auto v = find_all_dates(y,p);
