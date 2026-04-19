@@ -193,9 +193,9 @@ CATCH_REGISTER_ENUM( gi::DayProperty,
 TEST_CASE("проверка find_date на обработку всех DayProperty"){
   auto sz = static_cast<int>(gi::DAY_PROPERTY_ENUM_SIZE_) ;
   for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y) for (int i=0; i<sz; ++i) {
-    auto p = static_cast<DayProperty>(i) ;
+    auto p = static_cast<gi::DayProperty>(i) ;
     DYNAMIC_SECTION("DayProperty = " << p){
-      auto md = find_date(y, p);
+      auto md = gi::find_date(y, p);
       REQUIRE( md.first>0 && md.second>0 ) ;
     }
   }
