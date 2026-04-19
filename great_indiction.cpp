@@ -268,10 +268,9 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
   auto set_result_value = [&r](const DD& d, const DayProperty p) consteval {
     r[static_cast<int>(p)][d.y()-1] = d.md();
   };
-  for (unsigned idx = 0; idx < GREAT_INDICTION_LENGTH; ++idx) {
-    const int year = idx + 1;
+  for (int year = 1; year <= GREAT_INDICTION_LENGTH; ++year) {
     // точки отсчета
-    auto const pasha = DD(year, calc_easter_for(year));
+    auto const pasha = DD (year, calc_easter_for(year));
     auto const ascension = pasha.icp(39);
     auto const pentecost = ascension.icp(10);
     auto const all_saints = pentecost.icp(7);
@@ -729,9 +728,21 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     };
     //...
 
-
-
-
+    // первый день сплошной седмицы
+    set_result_value({year,12,25}, SOLID_WEEK_CHRISTMAS);
+    set_result_value(pentecost, SOLID_WEEK_PENTECOST);
+    set_result_value(dread_judgement.icp(1), SOLID_WEEK_CHEESE);
+    set_result_value(publican_pharisee, SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(pasha, SOLID_WEEK_BRIGHT);
+    // первый день одного из постов
+    set_result_value(lent_begin, GREAT_LENT);
+    set_result_value(all_saints.icp(1), APOSTOL_LENT);
+    set_result_value({year,11,15}, CHRISTMAS_LENT);
+    set_result_value({year,8,1}, ASSUMPTION_LENT);
+    // один из трех типов церковных праздников
+    set_result_value(pasha, MOVEABLE_FEAST);
+    set_result_value({year,1,6}, IMMOVEABLE_FEAST);
+    set_result_value({year,1,1}, GREAT_FEAST);
   }
   return r;
 }();
@@ -943,21 +954,7 @@ bool is_date_of(const int y, const MonthDay d, const DayProperty p)
 MonthDay find_date(const int y, const DayProperty p)
 {
   check_year_number(y) ;
-  switch (p) {
-    case SOLID_WEEK_BRIGHT:
-    case MOVEABLE_FEAST: return array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1] ;
-    case IMMOVEABLE_FEAST: return {1,6};
-    case GREAT_FEAST: return {1,1};
-    case GREAT_LENT: return array_of_dates_by_property_and_year[static_cast<int>(LENT_BEGIN)][y-1] ;
-    case APOSTOL_LENT: return incd_(array_of_dates_by_property_and_year[static_cast<int>(ALL_SAINTS)][y-1], is_leap(y));
-    case CHRISTMAS_LENT: return {11,15};
-    case ASSUMPTION_LENT: return {8,1};
-    case SOLID_WEEK_CHRISTMAS: return {12,25};
-    case SOLID_WEEK_PENTECOST: return array_of_dates_by_property_and_year[static_cast<int>(PENTECOST)][y-1] ;
-    case SOLID_WEEK_CHEESE: return array_of_dates_by_property_and_year[static_cast<int>(CHEESE_MON)][y-1] ;
-    case SOLID_WEEK_PUBLICAN_PHARISEE: return array_of_dates_by_property_and_year[static_cast<int>(PUBLICAN_PHARISEE_SUN)][y-1] ;
-    default: return array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
-  }
+  return array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
 }
 
 
