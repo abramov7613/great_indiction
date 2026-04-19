@@ -7,6 +7,7 @@ namespace gi = great_indiction;
 using gi::GREAT_INDICTION_LENGTH;
 using MD = gi::MonthDay ;
 
+
 namespace Catch {
     template<>
     struct StringMaker<MD> {
@@ -16,178 +17,523 @@ namespace Catch {
     };
 }
 
-CATCH_REGISTER_ENUM( gi::DayProperty,
-  gi::DayProperty::EASTER,
-  gi::DayProperty::BRIGHT_MON,
-  gi::DayProperty::BRIGHT_TUE,
-  gi::DayProperty::BRIGHT_WED,
-  gi::DayProperty::BRIGHT_THU,
-  gi::DayProperty::BRIGHT_FRI,
-  gi::DayProperty::BRIGHT_SAT,
-  gi::DayProperty::SUN2_AFTER_EASTER,
-  gi::DayProperty::WEEK2_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK2_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK2_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK2_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK2_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK2_AFTER_EASTER_SAT,
-  gi::DayProperty::SUN3_AFTER_EASTER,
-  gi::DayProperty::WEEK3_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK3_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK3_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK3_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK3_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK3_AFTER_EASTER_SAT,
-  gi::DayProperty::SUN4_AFTER_EASTER,
-  gi::DayProperty::WEEK4_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK4_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK4_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK4_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK4_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK4_AFTER_EASTER_SAT,
-  gi::DayProperty::SUN5_AFTER_EASTER,
-  gi::DayProperty::WEEK5_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK5_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK5_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK5_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK5_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK5_AFTER_EASTER_SAT,
-  gi::DayProperty::SUN6_AFTER_EASTER,
-  gi::DayProperty::WEEK6_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK6_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK6_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK6_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK6_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK6_AFTER_EASTER_SAT,
-  gi::DayProperty::SUN7_AFTER_EASTER,
-  gi::DayProperty::WEEK7_AFTER_EASTER_MON,
-  gi::DayProperty::WEEK7_AFTER_EASTER_TUE,
-  gi::DayProperty::WEEK7_AFTER_EASTER_WED,
-  gi::DayProperty::WEEK7_AFTER_EASTER_THU,
-  gi::DayProperty::WEEK7_AFTER_EASTER_FRI,
-  gi::DayProperty::WEEK7_AFTER_EASTER_SAT,
-  gi::DayProperty::PENTECOST_SUN,
-  gi::DayProperty::PENTECOST_MON,
-  gi::DayProperty::PENTECOST_TUE,
-  gi::DayProperty::PENTECOST_WED,
-  gi::DayProperty::PENTECOST_THU,
-  gi::DayProperty::PENTECOST_FRI,
-  gi::DayProperty::PENTECOST_SAT,
-  gi::DayProperty::SUN1_AFTER_PENTECOST,
-  gi::DayProperty::SUN2_AFTER_PENTECOST,
-  gi::DayProperty::SUN3_AFTER_PENTECOST,
-  gi::DayProperty::SUN4_AFTER_PENTECOST,
-  gi::DayProperty::PUBLICAN_PHARISEE_SUN,
-  gi::DayProperty::PRODIGAL_SON_SUN,
-  gi::DayProperty::MEMORIAL_SAT,
-  gi::DayProperty::DREAD_JUDGEMENT_SUN,
-  gi::DayProperty::CHEESE_MON,
-  gi::DayProperty::CHEESE_TUE,
-  gi::DayProperty::CHEESE_WED,
-  gi::DayProperty::CHEESE_THU,
-  gi::DayProperty::CHEESE_FRI,
-  gi::DayProperty::CHEESE_SAT,
-  gi::DayProperty::CHEESE_SUN,
-  gi::DayProperty::LENT_WEEK1_MON,
-  gi::DayProperty::LENT_WEEK1_TUE,
-  gi::DayProperty::LENT_WEEK1_WED,
-  gi::DayProperty::LENT_WEEK1_THU,
-  gi::DayProperty::LENT_WEEK1_FRI,
-  gi::DayProperty::LENT_WEEK1_SAT,
-  gi::DayProperty::LENT_SUN1,
-  gi::DayProperty::LENT_WEEK2_MON,
-  gi::DayProperty::LENT_WEEK2_TUE,
-  gi::DayProperty::LENT_WEEK2_WED,
-  gi::DayProperty::LENT_WEEK2_THU,
-  gi::DayProperty::LENT_WEEK2_FRI,
-  gi::DayProperty::LENT_WEEK2_SAT,
-  gi::DayProperty::LENT_SUN2,
-  gi::DayProperty::LENT_WEEK3_MON,
-  gi::DayProperty::LENT_WEEK3_TUE,
-  gi::DayProperty::LENT_WEEK3_WED,
-  gi::DayProperty::LENT_WEEK3_THU,
-  gi::DayProperty::LENT_WEEK3_FRI,
-  gi::DayProperty::LENT_WEEK3_SAT,
-  gi::DayProperty::LENT_SUN3,
-  gi::DayProperty::LENT_WEEK4_MON,
-  gi::DayProperty::LENT_WEEK4_TUE,
-  gi::DayProperty::LENT_WEEK4_WED,
-  gi::DayProperty::LENT_WEEK4_THU,
-  gi::DayProperty::LENT_WEEK4_FRI,
-  gi::DayProperty::LENT_WEEK4_SAT,
-  gi::DayProperty::LENT_SUN4,
-  gi::DayProperty::LENT_WEEK5_MON,
-  gi::DayProperty::LENT_WEEK5_TUE,
-  gi::DayProperty::LENT_WEEK5_WED,
-  gi::DayProperty::LENT_WEEK5_THU,
-  gi::DayProperty::LENT_WEEK5_FRI,
-  gi::DayProperty::LENT_WEEK5_SAT,
-  gi::DayProperty::LENT_SUN5,
-  gi::DayProperty::LENT_WEEK6_MON,
-  gi::DayProperty::LENT_WEEK6_TUE,
-  gi::DayProperty::LENT_WEEK6_WED,
-  gi::DayProperty::LENT_WEEK6_THU,
-  gi::DayProperty::LENT_WEEK6_FRI,
-  gi::DayProperty::LENT_WEEK6_SAT,
-  gi::DayProperty::LENT_SUN7,
-  gi::DayProperty::LENT_WEEK7_MON,
-  gi::DayProperty::LENT_WEEK7_TUE,
-  gi::DayProperty::LENT_WEEK7_WED,
-  gi::DayProperty::LENT_WEEK7_THU,
-  gi::DayProperty::LENT_WEEK7_FRI,
-  gi::DayProperty::LENT_WEEK7_SAT,
-  gi::DayProperty::SAT_BEFORE_EXALTATION,
-  gi::DayProperty::SUN_BEFORE_EXALTATION,
-  gi::DayProperty::SAT_AFTER_EXALTATION,
-  gi::DayProperty::SUN_AFTER_EXALTATION,
-  gi::DayProperty::FATHERS_ECU_COUNCIL_7,
-  gi::DayProperty::DIMITRI_SAT,
-  gi::DayProperty::HOLY_FOREFATHERS_SUN,
-  gi::DayProperty::SAT_BEFORE_CHRISTMAS,
-  gi::DayProperty::SUN_BEFORE_CHRISTMAS,
-  gi::DayProperty::SAT_AFTER_CHRISTMAS,
-  gi::DayProperty::SAT_AFTER_CHRISTMAS_READINGS,
-  gi::DayProperty::SUN_AFTER_CHRISTMAS,
-  gi::DayProperty::SUN_AFTER_CHRISTMAS_READINGS,
-  gi::DayProperty::SAINTS_JOSEPH_DAVID_JAMES,
-  gi::DayProperty::SAT_BEFORE_BAPTISM,
-  gi::DayProperty::SAT_BEFORE_BAPTISM_READINGS,
-  gi::DayProperty::SUN_BEFORE_BAPTISM,
-  gi::DayProperty::SUN_BEFORE_BAPTISM_READINGS,
-  gi::DayProperty::SAT_AFTER_BAPTISM,
-  gi::DayProperty::SUN_AFTER_BAPTISM,
-  gi::DayProperty::NEW_MARTYRS_OF_RUSSIA,
-  gi::DayProperty::CONVENTION_OF_3_HIERARCHS,
-  gi::DayProperty::FOREFEAST_GOD_MEETING,
-  gi::DayProperty::GOD_MEETING,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING1,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING2,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING3,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING4,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING5,
-  gi::DayProperty::AFTERFEAST_GOD_MEETING6,
-  gi::DayProperty::ENDOF_GOD_MEETING,
-  gi::DayProperty::JOHN_BAPTIST_HEAD_DISCOVERY_1_2,
-  gi::DayProperty::JOHN_BAPTIST_HEAD_DISCOVERY_3,
-  gi::DayProperty::HOLY_FORTY_MARTYRS_OF_SEBASTE,
-  gi::DayProperty::FOREFEAST_GOD_MOTHER_ANNUNCIATION,
-  gi::DayProperty::ENDOF_GOD_MOTHER_ANNUNCIATION,
-  gi::DayProperty::HOLY_GREAT_MARTYR_GEORGE,
-  gi::DayProperty::FATHERS_ECU_COUNCIL_1_6,
-  gi::DayProperty::MOVEABLE_FEAST,
-  gi::DayProperty::IMMOVEABLE_FEAST,
-  gi::DayProperty::GREAT_FEAST,
-  gi::DayProperty::GREAT_LENT,
-  gi::DayProperty::APOSTOL_LENT,
-  gi::DayProperty::CHRISTMAS_LENT,
-  gi::DayProperty::ASSUMPTION_LENT,
-  gi::DayProperty::SOLID_WEEK_BRIGHT,
-  gi::DayProperty::SOLID_WEEK_CHRISTMAS,
-  gi::DayProperty::SOLID_WEEK_PENTECOST,
-  gi::DayProperty::SOLID_WEEK_CHEESE,
-  gi::DayProperty::SOLID_WEEK_PUBLICAN_PHARISEE,
-  gi::DayProperty::DAY_PROPERTY_ENUM_SIZE_
-);
+
+std::ostream& operator << ( std::ostream& os, const gi::DayProperty p ) {
+  os << "DayProperty::" ;
+  switch (p) {
+    case EASTER:
+      os << "EASTER";
+      break;
+    case BRIGHT_MON:
+      os << "BRIGHT_MON";
+      break;
+    case BRIGHT_TUE:
+      os << "BRIGHT_TUE";
+      break;
+    case BRIGHT_WED:
+      os << "BRIGHT_WED";
+      break;
+    case BRIGHT_THU:
+      os << "BRIGHT_THU";
+      break;
+    case BRIGHT_FRI:
+      os << "BRIGHT_FRI";
+      break;
+    case BRIGHT_SAT:
+      os << "BRIGHT_SAT";
+      break;
+    case SUN2_AFTER_EASTER:
+      os << "SUN2_AFTER_EASTER";
+      break;
+    case WEEK2_AFTER_EASTER_MON:
+      os << "WEEK2_AFTER_EASTER_MON";
+      break;
+    case WEEK2_AFTER_EASTER_TUE:
+      os << "WEEK2_AFTER_EASTER_TUE";
+      break;
+    case WEEK2_AFTER_EASTER_WED:
+      os << "WEEK2_AFTER_EASTER_WED";
+      break;
+    case WEEK2_AFTER_EASTER_THU:
+      os << "WEEK2_AFTER_EASTER_THU";
+      break;
+    case WEEK2_AFTER_EASTER_FRI:
+      os << "WEEK2_AFTER_EASTER_FRI";
+      break;
+    case WEEK2_AFTER_EASTER_SAT:
+      os << "WEEK2_AFTER_EASTER_SAT";
+      break;
+    case SUN3_AFTER_EASTER:
+      os << "SUN3_AFTER_EASTER";
+      break;
+    case WEEK3_AFTER_EASTER_MON:
+      os << "WEEK3_AFTER_EASTER_MON";
+      break;
+    case WEEK3_AFTER_EASTER_TUE:
+      os << "WEEK3_AFTER_EASTER_TUE";
+      break;
+    case WEEK3_AFTER_EASTER_WED:
+      os << "WEEK3_AFTER_EASTER_WED";
+      break;
+    case WEEK3_AFTER_EASTER_THU:
+      os << "WEEK3_AFTER_EASTER_THU";
+      break;
+    case WEEK3_AFTER_EASTER_FRI:
+      os << "WEEK3_AFTER_EASTER_FRI";
+      break;
+    case WEEK3_AFTER_EASTER_SAT:
+      os << "WEEK3_AFTER_EASTER_SAT";
+      break;
+    case SUN4_AFTER_EASTER:
+      os << "SUN4_AFTER_EASTER";
+      break;
+    case WEEK4_AFTER_EASTER_MON:
+      os << "WEEK4_AFTER_EASTER_MON";
+      break;
+    case WEEK4_AFTER_EASTER_TUE:
+      os << "WEEK4_AFTER_EASTER_TUE";
+      break;
+    case WEEK4_AFTER_EASTER_WED:
+      os << "WEEK4_AFTER_EASTER_WED";
+      break;
+    case WEEK4_AFTER_EASTER_THU:
+      os << "WEEK4_AFTER_EASTER_THU";
+      break;
+    case WEEK4_AFTER_EASTER_FRI:
+      os << "WEEK4_AFTER_EASTER_FRI";
+      break;
+    case WEEK4_AFTER_EASTER_SAT:
+      os << "WEEK4_AFTER_EASTER_SAT";
+      break;
+    case SUN5_AFTER_EASTER:
+      os << "SUN5_AFTER_EASTER";
+      break;
+    case WEEK5_AFTER_EASTER_MON:
+      os << "WEEK5_AFTER_EASTER_MON";
+      break;
+    case WEEK5_AFTER_EASTER_TUE:
+      os << "WEEK5_AFTER_EASTER_TUE";
+      break;
+    case WEEK5_AFTER_EASTER_WED:
+      os << "WEEK5_AFTER_EASTER_WED";
+      break;
+    case WEEK5_AFTER_EASTER_THU:
+      os << "WEEK5_AFTER_EASTER_THU";
+      break;
+    case WEEK5_AFTER_EASTER_FRI:
+      os << "WEEK5_AFTER_EASTER_FRI";
+      break;
+    case WEEK5_AFTER_EASTER_SAT:
+      os << "WEEK5_AFTER_EASTER_SAT";
+      break;
+    case SUN6_AFTER_EASTER:
+      os << "SUN6_AFTER_EASTER";
+      break;
+    case WEEK6_AFTER_EASTER_MON:
+      os << "WEEK6_AFTER_EASTER_MON";
+      break;
+    case WEEK6_AFTER_EASTER_TUE:
+      os << "WEEK6_AFTER_EASTER_TUE";
+      break;
+    case WEEK6_AFTER_EASTER_WED:
+      os << "WEEK6_AFTER_EASTER_WED";
+      break;
+    case WEEK6_AFTER_EASTER_THU:
+      os << "WEEK6_AFTER_EASTER_THU";
+      break;
+    case WEEK6_AFTER_EASTER_FRI:
+      os << "WEEK6_AFTER_EASTER_FRI";
+      break;
+    case WEEK6_AFTER_EASTER_SAT:
+      os << "WEEK6_AFTER_EASTER_SAT";
+      break;
+    case SUN7_AFTER_EASTER:
+      os << "SUN7_AFTER_EASTER";
+      break;
+    case WEEK7_AFTER_EASTER_MON:
+      os << "WEEK7_AFTER_EASTER_MON";
+      break;
+    case WEEK7_AFTER_EASTER_TUE:
+      os << "WEEK7_AFTER_EASTER_TUE";
+      break;
+    case WEEK7_AFTER_EASTER_WED:
+      os << "WEEK7_AFTER_EASTER_WED";
+      break;
+    case WEEK7_AFTER_EASTER_THU:
+      os << "WEEK7_AFTER_EASTER_THU";
+      break;
+    case WEEK7_AFTER_EASTER_FRI:
+      os << "WEEK7_AFTER_EASTER_FRI";
+      break;
+    case WEEK7_AFTER_EASTER_SAT:
+      os << "WEEK7_AFTER_EASTER_SAT";
+      break;
+    case PENTECOST_SUN:
+      os << "PENTECOST_SUN";
+      break;
+    case PENTECOST_MON:
+      os << "PENTECOST_MON";
+      break;
+    case PENTECOST_TUE:
+      os << "PENTECOST_TUE";
+      break;
+    case PENTECOST_WED:
+      os << "PENTECOST_WED";
+      break;
+    case PENTECOST_THU:
+      os << "PENTECOST_THU";
+      break;
+    case PENTECOST_FRI:
+      os << "PENTECOST_FRI";
+      break;
+    case PENTECOST_SAT:
+      os << "PENTECOST_SAT";
+      break;
+    case SUN1_AFTER_PENTECOST:
+      os << "SUN1_AFTER_PENTECOST";
+      break;
+    case SUN2_AFTER_PENTECOST:
+      os << "SUN2_AFTER_PENTECOST";
+      break;
+    case SUN3_AFTER_PENTECOST:
+      os << "SUN3_AFTER_PENTECOST";
+      break;
+    case SUN4_AFTER_PENTECOST:
+      os << "SUN4_AFTER_PENTECOST";
+      break;
+    case PUBLICAN_PHARISEE_SUN:
+      os << "PUBLICAN_PHARISEE_SUN";
+      break;
+    case PRODIGAL_SON_SUN:
+      os << "PRODIGAL_SON_SUN";
+      break;
+    case MEMORIAL_SAT:
+      os << "MEMORIAL_SAT";
+      break;
+    case DREAD_JUDGEMENT_SUN:
+      os << "DREAD_JUDGEMENT_SUN";
+      break;
+    case CHEESE_MON:
+      os << "CHEESE_MON";
+      break;
+    case CHEESE_TUE:
+      os << "CHEESE_TUE";
+      break;
+    case CHEESE_WED:
+      os << "CHEESE_WED";
+      break;
+    case CHEESE_THU:
+      os << "CHEESE_THU";
+      break;
+    case CHEESE_FRI:
+      os << "CHEESE_FRI";
+      break;
+    case CHEESE_SAT:
+      os << "CHEESE_SAT";
+      break;
+    case CHEESE_SUN:
+      os << "CHEESE_SUN";
+      break;
+    case LENT_WEEK1_MON:
+      os << "LENT_WEEK1_MON";
+      break;
+    case LENT_WEEK1_TUE:
+      os << "LENT_WEEK1_TUE";
+      break;
+    case LENT_WEEK1_WED:
+      os << "LENT_WEEK1_WED";
+      break;
+    case LENT_WEEK1_THU:
+      os << "LENT_WEEK1_THU";
+      break;
+    case LENT_WEEK1_FRI:
+      os << "LENT_WEEK1_FRI";
+      break;
+    case LENT_WEEK1_SAT:
+      os << "LENT_WEEK1_SAT";
+      break;
+    case LENT_SUN1:
+      os << "LENT_SUN1";
+      break;
+    case LENT_WEEK2_MON:
+      os << "LENT_WEEK2_MON";
+      break;
+    case LENT_WEEK2_TUE:
+      os << "LENT_WEEK2_TUE";
+      break;
+    case LENT_WEEK2_WED:
+      os << "LENT_WEEK2_WED";
+      break;
+    case LENT_WEEK2_THU:
+      os << "LENT_WEEK2_THU";
+      break;
+    case LENT_WEEK2_FRI:
+      os << "LENT_WEEK2_FRI";
+      break;
+    case LENT_WEEK2_SAT:
+      os << "LENT_WEEK2_SAT";
+      break;
+    case LENT_SUN2:
+      os << "LENT_SUN2";
+      break;
+    case LENT_WEEK3_MON:
+      os << "LENT_WEEK3_MON";
+      break;
+    case LENT_WEEK3_TUE:
+      os << "LENT_WEEK3_TUE";
+      break;
+    case LENT_WEEK3_WED:
+      os << "LENT_WEEK3_WED";
+      break;
+    case LENT_WEEK3_THU:
+      os << "LENT_WEEK3_THU";
+      break;
+    case LENT_WEEK3_FRI:
+      os << "LENT_WEEK3_FRI";
+      break;
+    case LENT_WEEK3_SAT:
+      os << "LENT_WEEK3_SAT";
+      break;
+    case LENT_SUN3:
+      os << "LENT_SUN3";
+      break;
+    case LENT_WEEK4_MON:
+      os << "LENT_WEEK4_MON";
+      break;
+    case LENT_WEEK4_TUE:
+      os << "LENT_WEEK4_TUE";
+      break;
+    case LENT_WEEK4_WED:
+      os << "LENT_WEEK4_WED";
+      break;
+    case LENT_WEEK4_THU:
+      os << "LENT_WEEK4_THU";
+      break;
+    case LENT_WEEK4_FRI:
+      os << "LENT_WEEK4_FRI";
+      break;
+    case LENT_WEEK4_SAT:
+      os << "LENT_WEEK4_SAT";
+      break;
+    case LENT_SUN4:
+      os << "LENT_SUN4";
+      break;
+    case LENT_WEEK5_MON:
+      os << "LENT_WEEK5_MON";
+      break;
+    case LENT_WEEK5_TUE:
+      os << "LENT_WEEK5_TUE";
+      break;
+    case LENT_WEEK5_WED:
+      os << "LENT_WEEK5_WED";
+      break;
+    case LENT_WEEK5_THU:
+      os << "LENT_WEEK5_THU";
+      break;
+    case LENT_WEEK5_FRI:
+      os << "LENT_WEEK5_FRI";
+      break;
+    case LENT_WEEK5_SAT:
+      os << "LENT_WEEK5_SAT";
+      break;
+    case LENT_SUN5:
+      os << "LENT_SUN5";
+      break;
+    case LENT_WEEK6_MON:
+      os << "LENT_WEEK6_MON";
+      break;
+    case LENT_WEEK6_TUE:
+      os << "LENT_WEEK6_TUE";
+      break;
+    case LENT_WEEK6_WED:
+      os << "LENT_WEEK6_WED";
+      break;
+    case LENT_WEEK6_THU:
+      os << "LENT_WEEK6_THU";
+      break;
+    case LENT_WEEK6_FRI:
+      os << "LENT_WEEK6_FRI";
+      break;
+    case LENT_WEEK6_SAT:
+      os << "LENT_WEEK6_SAT";
+      break;
+    case LENT_SUN7:
+      os << "LENT_SUN7";
+      break;
+    case LENT_WEEK7_MON:
+      os << "LENT_WEEK7_MON";
+      break;
+    case LENT_WEEK7_TUE:
+      os << "LENT_WEEK7_TUE";
+      break;
+    case LENT_WEEK7_WED:
+      os << "LENT_WEEK7_WED";
+      break;
+    case LENT_WEEK7_THU:
+      os << "LENT_WEEK7_THU";
+      break;
+    case LENT_WEEK7_FRI:
+      os << "LENT_WEEK7_FRI";
+      break;
+    case LENT_WEEK7_SAT:
+      os << "LENT_WEEK7_SAT";
+      break;
+    case SAT_BEFORE_EXALTATION:
+      os << "SAT_BEFORE_EXALTATION";
+      break;
+    case SUN_BEFORE_EXALTATION:
+      os << "SUN_BEFORE_EXALTATION";
+      break;
+    case SAT_AFTER_EXALTATION:
+      os << "SAT_AFTER_EXALTATION";
+      break;
+    case SUN_AFTER_EXALTATION:
+      os << "SUN_AFTER_EXALTATION";
+      break;
+    case FATHERS_ECU_COUNCIL_7:
+      os << "FATHERS_ECU_COUNCIL_7";
+      break;
+    case DIMITRI_SAT:
+      os << "DIMITRI_SAT";
+      break;
+    case HOLY_FOREFATHERS_SUN:
+      os << "HOLY_FOREFATHERS_SUN";
+      break;
+    case SAT_BEFORE_CHRISTMAS:
+      os << "SAT_BEFORE_CHRISTMAS";
+      break;
+    case SUN_BEFORE_CHRISTMAS:
+      os << "SUN_BEFORE_CHRISTMAS";
+      break;
+    case SAT_AFTER_CHRISTMAS:
+      os << "SAT_AFTER_CHRISTMAS";
+      break;
+    case SAT_AFTER_CHRISTMAS_READINGS:
+      os << "SAT_AFTER_CHRISTMAS_READINGS";
+      break;
+    case SUN_AFTER_CHRISTMAS:
+      os << "SUN_AFTER_CHRISTMAS";
+      break;
+    case SUN_AFTER_CHRISTMAS_READINGS:
+      os << "SUN_AFTER_CHRISTMAS_READINGS";
+      break;
+    case SAINTS_JOSEPH_DAVID_JAMES:
+      os << "SAINTS_JOSEPH_DAVID_JAMES";
+      break;
+    case SAT_BEFORE_BAPTISM:
+      os << "SAT_BEFORE_BAPTISM";
+      break;
+    case SAT_BEFORE_BAPTISM_READINGS:
+      os << "SAT_BEFORE_BAPTISM_READINGS";
+      break;
+    case SUN_BEFORE_BAPTISM:
+      os << "SUN_BEFORE_BAPTISM";
+      break;
+    case SUN_BEFORE_BAPTISM_READINGS:
+      os << "SUN_BEFORE_BAPTISM_READINGS";
+      break;
+    case SAT_AFTER_BAPTISM:
+      os << "SAT_AFTER_BAPTISM";
+      break;
+    case SUN_AFTER_BAPTISM:
+      os << "SUN_AFTER_BAPTISM";
+      break;
+    case NEW_MARTYRS_OF_RUSSIA:
+      os << "NEW_MARTYRS_OF_RUSSIA";
+      break;
+    case CONVENTION_OF_3_HIERARCHS:
+      os << "CONVENTION_OF_3_HIERARCHS";
+      break;
+    case FOREFEAST_GOD_MEETING:
+      os << "FOREFEAST_GOD_MEETING";
+      break;
+    case GOD_MEETING:
+      os << "GOD_MEETING";
+      break;
+    case AFTERFEAST_GOD_MEETING1:
+      os << "AFTERFEAST_GOD_MEETING1";
+      break;
+    case AFTERFEAST_GOD_MEETING2:
+      os << "AFTERFEAST_GOD_MEETING2";
+      break;
+    case AFTERFEAST_GOD_MEETING3:
+      os << "AFTERFEAST_GOD_MEETING3";
+      break;
+    case AFTERFEAST_GOD_MEETING4:
+      os << "AFTERFEAST_GOD_MEETING4";
+      break;
+    case AFTERFEAST_GOD_MEETING5:
+      os << "AFTERFEAST_GOD_MEETING5";
+      break;
+    case AFTERFEAST_GOD_MEETING6:
+      os << "AFTERFEAST_GOD_MEETING6";
+      break;
+    case ENDOF_GOD_MEETING:
+      os << "ENDOF_GOD_MEETING";
+      break;
+    case JOHN_BAPTIST_HEAD_DISCOVERY_1_2:
+      os << "JOHN_BAPTIST_HEAD_DISCOVERY_1_2";
+      break;
+    case JOHN_BAPTIST_HEAD_DISCOVERY_3:
+      os << "JOHN_BAPTIST_HEAD_DISCOVERY_3";
+      break;
+    case HOLY_FORTY_MARTYRS_OF_SEBASTE:
+      os << "HOLY_FORTY_MARTYRS_OF_SEBASTE";
+      break;
+    case FOREFEAST_GOD_MOTHER_ANNUNCIATION:
+      os << "FOREFEAST_GOD_MOTHER_ANNUNCIATION";
+      break;
+    case ENDOF_GOD_MOTHER_ANNUNCIATION:
+      os << "ENDOF_GOD_MOTHER_ANNUNCIATION";
+      break;
+    case HOLY_GREAT_MARTYR_GEORGE:
+      os << "HOLY_GREAT_MARTYR_GEORGE";
+      break;
+    case FATHERS_ECU_COUNCIL_1_6:
+      os << "FATHERS_ECU_COUNCIL_1_6";
+      break;
+    case MOVEABLE_FEAST:
+      os << "MOVEABLE_FEAST";
+      break;
+    case IMMOVEABLE_FEAST:
+      os << "IMMOVEABLE_FEAST";
+      break;
+    case GREAT_FEAST:
+      os << "GREAT_FEAST";
+      break;
+    case GREAT_LENT:
+      os << "GREAT_LENT";
+      break;
+    case APOSTOL_LENT:
+      os << "APOSTOL_LENT";
+      break;
+    case CHRISTMAS_LENT:
+      os << "CHRISTMAS_LENT";
+      break;
+    case ASSUMPTION_LENT:
+      os << "ASSUMPTION_LENT";
+      break;
+    case SOLID_WEEK_BRIGHT:
+      os << "SOLID_WEEK_BRIGHT";
+      break;
+    case SOLID_WEEK_CHRISTMAS:
+      os << "SOLID_WEEK_CHRISTMAS";
+      break;
+    case SOLID_WEEK_PENTECOST:
+      os << "SOLID_WEEK_PENTECOST";
+      break;
+    case SOLID_WEEK_CHEESE:
+      os << "SOLID_WEEK_CHEESE";
+      break;
+    case SOLID_WEEK_PUBLICAN_PHARISEE:
+      os << "SOLID_WEEK_PUBLICAN_PHARISEE";
+      break;
+    case DAY_PROPERTY_ENUM_SIZE_:
+      os << "DAY_PROPERTY_ENUM_SIZE_";
+      break;
+  }
+  return os;
+}
 
 
 TEST_CASE("проверка find_date на обработку всех DayProperty"){
