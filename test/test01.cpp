@@ -18979,8 +18979,10 @@ TEST_CASE("проверка расчета даты Суббота перед Б
     MD(0,0),
     MD(1,5),
   };
-  for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y)
+  for (int y=1; y<=GREAT_INDICTION_LENGTH; ++y){
+    INFO("year_number = " << y);
     REQUIRE( gi::find_date(y, gi::SAT_BEFORE_BAPTISM) == arr[y-1] ) ;
+  }
 }
 
 
