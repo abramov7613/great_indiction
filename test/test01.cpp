@@ -21,6 +21,7 @@ namespace Catch {
 std::ostream& operator << ( std::ostream& os, const gi::DayProperty p ) {
   os << "DayProperty::" ;
   switch (p) {
+    using enum gi::DayProperty ;
     case EASTER:
       os << "EASTER";
       break;
