@@ -25,7 +25,6 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "great_indiction.h"
-#include <initializer_list>
 #include <tuple>
 #include <array>
 #include <stdexcept>
@@ -1016,6 +1015,18 @@ std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
       break;
     default:
       result.push_back(array_of_dates_by_property_and_year[static_cast<int>(p)][y-1]) ;
+  }
+  return result;
+}
+
+
+std::vector<MonthDay> find_all_dates(const int y, std::initializer_list<DayProperty> il)
+{
+  check_year_number(y) ;
+  std::vector<MonthDay> result;
+  for (auto p: il) {
+    auto v = find_all_dates(y,p);
+    std::move(v.begin(), v.end(), std::back_inserter(result));
   }
   return result;
 }

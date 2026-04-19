@@ -24,9 +24,9 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     OTHER DEALINGS IN THE SOFTWARE.
 */
-
 #pragma once
 #include <utility>
+#include <initializer_list>
 #include <vector>
 
 namespace great_indiction {
@@ -427,5 +427,7 @@ int apostol_fast_length(const int year_number_in_great_indiction) ;
 bool is_date_of(const int year_number_in_great_indiction, const MonthDay date, const DayProperty property) ;
 MonthDay find_date(const int year_number_in_great_indiction, const DayProperty property) ;
 std::vector<MonthDay> find_all_dates(const int year_number_in_great_indiction, const DayProperty property) ;
+std::vector<MonthDay> find_all_dates(const int year_number_in_great_indiction,
+                                     std::initializer_list<DayProperty> properties) ;
 
 } // namespace great_indiction
