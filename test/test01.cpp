@@ -3,6 +3,7 @@
 #include <array>
 
 namespace gi = great_indiction;
+using gi::GREAT_INDICTION_LENGTH;
 using MD = gi::MonthDay ;
 
 TEST_CASE("проверка расчета даты пасхи"){
