@@ -298,7 +298,8 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     if(dd>=t1 && dd<=t2) {
       t3 = t1.icp(5);
     }
-    t1 = t2 = t1.icp(3);
+    t1 = t1.icp(3);
+    t2 = t1.icp(3);
     if(dd>=t1 && dd<=t2) {
       t3 = dread_judgement.icp(2);
     }
