@@ -897,9 +897,10 @@ std::vector<MonthDay> find_all_dates(const int y, std::initializer_list<DayPrope
 std::vector<DayProperty> get_day_properties(const int y, const MonthDay d)
 {
   check_date(y, d);
-  std::vector<DayProperty> result;
   const auto& arr = array_of_dates_by_year_month_day_numbers[y-1][d.first-1][d.second-1] ;
-  std::copy_if(arr.begin(), arr.end(), std::back_inserter(result), [](const auto& e){
+  if (!arr) return {};
+  std::vector<DayProperty> result;
+  std::copy_if(arr->begin(), arr->end(), std::back_inserter(result), [](const auto& e){
     return static_cast<bool>(e) ;
   });
   return result;
