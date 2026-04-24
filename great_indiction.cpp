@@ -900,7 +900,8 @@ std::vector<DayProperty> get_day_properties(const int y, const MonthDay d)
   const auto& arr = array_of_dates_by_year_month_day_numbers[y-1][d.first-1][d.second-1] ;
   if (!arr) return {};
   std::vector<DayProperty> result;
-  for (auto it=arr->begin(), ei=arr->end(); it!=ei; ++it) if (*it) result.push_back(*it) ;
+  for (auto it=arr->begin(), ei=arr->end(); it!=ei; ++it)
+    if (it->has_value()) result.push_back(it->value()) ;
   return result;
 }
 
