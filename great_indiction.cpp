@@ -803,7 +803,7 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
 // value    = apostol fast length as int
 constexpr auto apostol_fast_sizes_array = []() consteval {
   auto calc_apostol_fast_length_for = [](const int y) consteval {
-    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1]) ;
+    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1][0]) ;
     const int x2 = days_count_from_1jan_to(y, {6,29}) ;
     return x2 - x1 - 57;
   };
