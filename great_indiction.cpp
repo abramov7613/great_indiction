@@ -257,20 +257,6 @@ consteval auto calc_easter_for(const int year_number_in_great_indiction)
 }
 
 
-// index    = [year_number_in_great_indiction - 1]
-// value    = apostol fast length as int
-constexpr auto apostol_fast_sizes_array = []() consteval {
-  auto calc_apostol_fast_length_for = [p = static_cast<int>(PASHA)](const int y) consteval {
-    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[p][y-1]) ;
-    const int x2 = days_count_from_1jan_to(y, {6,29}) ;
-    return x2 - x1 - 57;
-  };
-  std::array<int, GREAT_INDICTION_LENGTH> result;
-  for (size_t i=0; i<GREAT_INDICTION_LENGTH; ++i) result[i] = calc_apostol_fast_length_for(i+1) ;
-  return result;
-}();
-
-
 // first index  = DayProperty as integer
 // second index = year_number_in_great_indiction - 1
 // value        = array of MonthDay objects
@@ -810,6 +796,20 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     set_result_value({year,10,1}, GREAT_FEAST);
   }
   return r;
+}();
+
+
+// index    = [year_number_in_great_indiction - 1]
+// value    = apostol fast length as int
+constexpr auto apostol_fast_sizes_array = []() consteval {
+  auto calc_apostol_fast_length_for = [p = static_cast<int>(PASHA)](const int y) consteval {
+    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[p][y-1]) ;
+    const int x2 = days_count_from_1jan_to(y, {6,29}) ;
+    return x2 - x1 - 57;
+  };
+  std::array<int, GREAT_INDICTION_LENGTH> result;
+  for (size_t i=0; i<GREAT_INDICTION_LENGTH; ++i) result[i] = calc_apostol_fast_length_for(i+1) ;
+  return result;
 }();
 
 
