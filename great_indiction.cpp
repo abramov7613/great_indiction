@@ -29,7 +29,6 @@
 #include <array>
 #include <stdexcept>
 #include <algorithm>
-#include <functional>
 
 namespace {
 
@@ -258,13 +257,31 @@ consteval auto calc_easter_for(const int year_number_in_great_indiction)
 }
 
 
+// index    = [year_number_in_great_indiction - 1]
+// value    = apostol fast length as int
+constexpr auto apostol_fast_sizes_array = []() consteval {
+  auto calc_apostol_fast_length_for = [p = static_cast<int>(PASHA)](const int y) consteval {
+    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[p][y-1]) ;
+    const int x2 = days_count_from_1jan_to(y, {6,29}) ;
+    return x2 - x1 - 57;
+  };
+  std::array<int, GREAT_INDICTION_LENGTH> result;
+  for (size_t i=0; i<GREAT_INDICTION_LENGTH; ++i) result[i] = calc_apostol_fast_length_for(i+1) ;
+  return result;
+}();
+
+
 // first index  = DayProperty as integer
 // second index = year_number_in_great_indiction - 1
-// value        = date as MonthDay
+// value        = array of MonthDay objects
 constexpr auto array_of_dates_by_property_and_year = []() consteval {
-  std::array<std::array<MonthDay, GREAT_INDICTION_LENGTH>, static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> r;
+  std::array<std::array<std::array<MonthDay,80>, GREAT_INDICTION_LENGTH>,
+             static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> r;
   auto set_result_value = [&r](const DD& d, const DayProperty p) consteval {
-    r[static_cast<int>(p)][d.y()-1] = d.md();
+    auto& internal_arr = r[static_cast<int>(p)][d.y()-1] ;
+    auto it = std::find(internal_arr.begin(), internal_arr.end(), MonthDay{0,0});
+    if (it == internal_arr.end()) throw "limit of internal_arr size";
+    *it = d.md() ;
   };
   for (int year = 1; year <= GREAT_INDICTION_LENGTH; ++year) {
     // точки отсчета
@@ -283,6 +300,7 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
       t1 (publican_pharisee.icp(13));
     if (dd >= lent_begin) dd = forgiveness;
     set_result_value(dd, GOD_MEETING);
+    auto const god_meeting = dd;
     if (dd == t1) t1 = publican_pharisee.icp(6);
     set_result_value(t1, MEMORIAL_SAT);
     auto const memorial_sat = t1;
@@ -727,200 +745,78 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     };
     //...
 
-    // первый день сплошной седмицы
+    // сплошные седмицы
+    set_result_value({year,1,1}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,1,2}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,1,3}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,1,4}, SOLID_WEEK_CHRISTMAS);
     set_result_value({year,12,25}, SOLID_WEEK_CHRISTMAS);
-    set_result_value(pentecost, SOLID_WEEK_PENTECOST);
-    set_result_value(dread_judgement.icp(1), SOLID_WEEK_CHEESE);
-    set_result_value(publican_pharisee, SOLID_WEEK_PUBLICAN_PHARISEE);
-    set_result_value(pasha, SOLID_WEEK_BRIGHT);
-    // первый день одного из постов
-    set_result_value(lent_begin, GREAT_LENT);
-    set_result_value(all_saints.icp(1), APOSTOL_LENT);
-    set_result_value({year,11,15}, CHRISTMAS_LENT);
-    set_result_value({year,8,1}, ASSUMPTION_LENT);
+    set_result_value({year,12,26}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,12,27}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,12,28}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,12,29}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,12,30}, SOLID_WEEK_CHRISTMAS);
+    set_result_value({year,12,31}, SOLID_WEEK_CHRISTMAS);
+    set_result_value(pasha       , SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(1), SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(2), SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(3), SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(4), SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(5), SOLID_WEEK_BRIGHT);
+    set_result_value(pasha.icp(6), SOLID_WEEK_BRIGHT);
+    set_result_value(pentecost       , SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(1), SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(2), SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(3), SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(4), SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(5), SOLID_WEEK_PENTECOST);
+    set_result_value(pentecost.icp(6), SOLID_WEEK_PENTECOST);
+    set_result_value(dread_judgement.icp(1)   , SOLID_WEEK_CHEESE);
+    set_result_value(dread_judgement.icp(2)   , SOLID_WEEK_CHEESE);
+    set_result_value(dread_judgement.icp(3)   , SOLID_WEEK_CHEESE);
+    set_result_value(dread_judgement.icp(4)   , SOLID_WEEK_CHEESE);
+    set_result_value(dread_judgement.icp(5)   , SOLID_WEEK_CHEESE);
+    set_result_value(dread_judgement.icp(6)   , SOLID_WEEK_CHEESE);
+    set_result_value(forgiveness              , SOLID_WEEK_CHEESE);
+    set_result_value(publican_pharisee          , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(1)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(2)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(3)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(4)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(5)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    set_result_value(publican_pharisee.icp(6)   , SOLID_WEEK_PUBLICAN_PHARISEE);
+    // посты
+    for (DD d1{year,8,1}, d2{year,8,15}; d1 < d2; ++d1) set_result_value(d1, ASSUMPTION_LENT);
+    for (DD d1{year,11,15}, d2{year,12,25}; d1 < d2; ++d1) set_result_value(d1, CHRISTMAS_LENT);
+    for (DD d1{all_saints.icp(1)}, d2{year,6,29}; d1 < d2; ++d1) set_result_value(d1, APOSTOL_LENT);
+    for (DD d1=lent_beign, d2=pasha; d1 < d2; ++d1) set_result_value(d1, GREAT_LENT);
     // один из трех типов церковных праздников
-    set_result_value(pasha, MOVEABLE_FEAST);
-    set_result_value({year,1,6}, IMMOVEABLE_FEAST);
-    set_result_value({year,1,1}, GREAT_FEAST);
+    set_result_value(palm_sun,  MOVEABLE_FEAST);
+    set_result_value(ascension, MOVEABLE_FEAST);
+    set_result_value(pentecost, MOVEABLE_FEAST);
+    set_result_value(god_meeting,  IMMOVEABLE_FEAST);
+    set_result_value({year,1,6},   IMMOVEABLE_FEAST);
+    set_result_value({year,3,25},  IMMOVEABLE_FEAST);
+    set_result_value({year,8,6},   IMMOVEABLE_FEAST);
+    set_result_value({year,8,15},  IMMOVEABLE_FEAST);
+    set_result_value({year,9,8},   IMMOVEABLE_FEAST);
+    set_result_value({year,9,14},  IMMOVEABLE_FEAST);
+    set_result_value({year,11,21}, IMMOVEABLE_FEAST);
+    set_result_value({year,12,25}, IMMOVEABLE_FEAST);
+    set_result_value({year,1,1},  GREAT_FEAST);
+    set_result_value({year,6,24}, GREAT_FEAST);
+    set_result_value({year,6,29}, GREAT_FEAST);
+    set_result_value({year,8,29}, GREAT_FEAST);
+    set_result_value({year,10,1}, GREAT_FEAST);
   }
   return r;
 }();
-
-
-// index    = [year_number_in_great_indiction - 1]
-// value    = apostol fast length as int
-constexpr auto apostol_fast_sizes_array = []() consteval {
-  auto calc_apostol_fast_length_for = [p = static_cast<int>(PASHA)](const int y) consteval {
-    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[p][y-1]) ;
-    const int x2 = days_count_from_1jan_to(y, {6,29}) ;
-    return x2 - x1 - 57;
-  };
-  std::array<int, GREAT_INDICTION_LENGTH> result;
-  for (size_t i=0; i<GREAT_INDICTION_LENGTH; ++i) result[i] = calc_apostol_fast_length_for(i+1) ;
-  return result;
-}();
-
-
-constexpr std::array IMMOVEABLE_FEAST_DATES_ARRAY = {
-  MonthDay{1,6},
-  MonthDay{3,25},
-  MonthDay{8,6},
-  MonthDay{8,15},
-  MonthDay{9,8},
-  MonthDay{9,14},
-  MonthDay{11,21},
-  MonthDay{12,25},
-};
-
-
-constexpr std::array GREAT_FEAST_DATES_ARRAY = {
-  MonthDay{1,1},
-  MonthDay{6,24},
-  MonthDay{6,29},
-  MonthDay{8,29},
-  MonthDay{10,1},
-};
-
-
-constexpr std::array SOLID_WEEK_CHRISTMAS_DATES_ARRAY = {
-  MonthDay{1,1},
-  MonthDay{1,2},
-  MonthDay{1,3},
-  MonthDay{1,4},
-  MonthDay{12,25},
-  MonthDay{12,26},
-  MonthDay{12,27},
-  MonthDay{12,28},
-  MonthDay{12,29},
-  MonthDay{12,30},
-  MonthDay{12,31},
-};
-
-
-constexpr bool date_is_moveable_feast(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(PALM_SUN)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(ASCENSION)][y-1] ;
-  const auto d3 = array_of_dates_by_property_and_year[static_cast<int>(PENTECOST)][y-1] ;
-  return date==d1 || date==d2 || date==d3 ;
-}
-
-
-constexpr bool date_is_immoveable_feast(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(GOD_MEETING)][y-1] ;
-  return date==d1 ||
-    std::any_of(IMMOVEABLE_FEAST_DATES_ARRAY.begin(), IMMOVEABLE_FEAST_DATES_ARRAY.end(), [date](const auto e){
-      return date == e;
-    }) ;
-}
-
-
-constexpr bool date_is_great_feast(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  return
-    std::any_of(GREAT_FEAST_DATES_ARRAY.begin(), GREAT_FEAST_DATES_ARRAY.end(), [date](const auto e){
-      return date == e;
-    }) ;
-}
-
-
-constexpr bool date_is_great_lent(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(CHEESE_SUN)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1] ;
-  return date > d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_apostol_lent(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(ALL_SAINTS)][y-1] ;
-  const auto d2 = MonthDay(6,29);
-  return date > d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_christmas_lent(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = MonthDay(11,14);
-  const auto d2 = MonthDay(12,25);
-  return date > d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_assumption_lent(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = MonthDay(8,1);
-  const auto d2 = MonthDay(8,15);
-  return date >= d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_solid_week_bright(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(LENT_WEEK7_SAT)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(SUN2_AFTER_EASTER)][y-1] ;
-  return date > d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_solid_week_christmas(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  return
-    std::any_of(SOLID_WEEK_CHRISTMAS_DATES_ARRAY.begin(), SOLID_WEEK_CHRISTMAS_DATES_ARRAY.end(), [date](const auto e){
-      return date == e;
-    }) ;
-}
-
-
-constexpr bool date_is_solid_week_pentecost(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(PENTECOST)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(ALL_SAINTS)][y-1] ;
-  return date >= d1 && date < d2 ;
-}
-
-
-constexpr bool date_is_solid_week_cheese(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(DREAD_JUDGEMENT_SUN)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(FORGIVENESS_SUN)][y-1] ;
-  return date > d1 && date <= d2 ;
-}
-
-
-constexpr bool date_is_solid_week_publican_pharisee(const int y, const MonthDay date)
-{
-  check_date(y, date);
-  const auto d1 = array_of_dates_by_property_and_year[static_cast<int>(PUBLICAN_PHARISEE_SUN)][y-1] ;
-  const auto d2 = array_of_dates_by_property_and_year[static_cast<int>(PRODIGAL_SON_SUN)][y-1] ;
-  return date >= d1 && date < d2 ;
-}
 
 
 } // namespace without name
 
 
 namespace great_indiction {
-
-MonthDay easter_date(const int y)
-{
-  check_year_number(y) ;
-  return array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1] ;
-}
-
 
 int apostol_fast_length(const int y)
 {
@@ -929,31 +825,23 @@ int apostol_fast_length(const int y)
 }
 
 
-bool is_date_of(const int y, const MonthDay d, const DayProperty p)
-{
-  check_date(y, d);
-  switch (p) {
-    case MOVEABLE_FEAST: return date_is_moveable_feast(y,d);
-    case IMMOVEABLE_FEAST: return date_is_immoveable_feast(y,d);
-    case GREAT_FEAST: return date_is_great_feast(y,d);
-    case GREAT_LENT: return date_is_great_lent(y,d);
-    case APOSTOL_LENT: return date_is_apostol_lent(y,d);
-    case CHRISTMAS_LENT: return date_is_christmas_lent(y,d);
-    case ASSUMPTION_LENT: return date_is_assumption_lent(y,d);
-    case SOLID_WEEK_BRIGHT: return date_is_solid_week_bright(y,d);
-    case SOLID_WEEK_CHRISTMAS: return date_is_solid_week_christmas(y,d);
-    case SOLID_WEEK_PENTECOST: return date_is_solid_week_pentecost(y,d);
-    case SOLID_WEEK_CHEESE: return date_is_solid_week_cheese(y,d);
-    case SOLID_WEEK_PUBLICAN_PHARISEE: return date_is_solid_week_publican_pharisee(y,d);
-    default: return d == array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
-  }
-}
-
-
 MonthDay find_date(const int y, const DayProperty p)
 {
   check_year_number(y) ;
-  return array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
+  return array_of_dates_by_property_and_year[static_cast<int>(p)][y-1][0] ;
+}
+
+
+MonthDay easter_date(const int y)
+{
+  return find_date(y, PASHA);
+}
+
+
+bool is_date_of(const int y, const MonthDay d, const DayProperty p)
+{
+  check_date(y, d);
+  return d == find_date(y, p);
 }
 
 
@@ -961,57 +849,10 @@ std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
 {
   check_year_number(y) ;
   std::vector<MonthDay> result;
-  auto add_ = [&result](int y, DayProperty p, std::function<bool(const int, const MonthDay)> condition){
-    const bool l = is_leap(y) ;
-    for (auto dd = find_date(y,p); condition(y,dd); dd = incd_(dd, l) ) result.push_back(dd) ;
-  };
-  switch (p) {
-    case MOVEABLE_FEAST:
-      result.push_back(array_of_dates_by_property_and_year[static_cast<int>(PALM_SUN)][y-1]) ;
-      result.push_back(array_of_dates_by_property_and_year[static_cast<int>(ASCENSION)][y-1]) ;
-      result.push_back(array_of_dates_by_property_and_year[static_cast<int>(PENTECOST)][y-1]) ;
-      break;
-    case IMMOVEABLE_FEAST:
-      result.push_back(array_of_dates_by_property_and_year[static_cast<int>(GOD_MEETING)][y-1]) ;
-      std::copy(IMMOVEABLE_FEAST_DATES_ARRAY.begin(),
-                IMMOVEABLE_FEAST_DATES_ARRAY.end(),
-                std::back_inserter(result));
-      break;
-    case GREAT_FEAST:
-      std::copy(GREAT_FEAST_DATES_ARRAY.begin(),
-                GREAT_FEAST_DATES_ARRAY.end(),
-                std::back_inserter(result));
-      break;
-    case GREAT_LENT:
-      add_(y, p, date_is_great_lent);
-      break;
-    case APOSTOL_LENT:
-      add_(y, p, date_is_apostol_lent);
-      break;
-    case CHRISTMAS_LENT:
-      add_(y, p, date_is_christmas_lent);
-      break;
-    case ASSUMPTION_LENT:
-      add_(y, p, date_is_assumption_lent);
-      break;
-    case SOLID_WEEK_BRIGHT:
-      add_(y, p, date_is_solid_week_bright);
-      break;
-    case SOLID_WEEK_CHRISTMAS:
-      add_(y, p, date_is_solid_week_christmas);
-      break;
-    case SOLID_WEEK_PENTECOST:
-      add_(y, p, date_is_solid_week_pentecost);
-      break;
-    case SOLID_WEEK_CHEESE:
-      add_(y, p, date_is_solid_week_cheese);
-      break;
-    case SOLID_WEEK_PUBLICAN_PHARISEE:
-      add_(y, p, date_is_solid_week_publican_pharisee);
-      break;
-    default:
-      result.push_back(array_of_dates_by_property_and_year[static_cast<int>(p)][y-1]) ;
-  }
+  const auto& arr = array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
+  std::copy_if(arr.begin(), arr.end(), std::back_inserter(result), [](const auto& e){
+    return e.first>0 && e.second>0;
+  });
   return result;
 }
 
