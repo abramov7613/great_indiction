@@ -775,7 +775,7 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     for (DD d1{year,8,1}, d2{year,8,15}; d1 < d2; ++d1) set_result_value(d1, ASSUMPTION_LENT);
     for (DD d1{year,11,15}, d2{year,12,25}; d1 < d2; ++d1) set_result_value(d1, CHRISTMAS_LENT);
     for (DD d1{all_saints.icp(1)}, d2{year,6,29}; d1 < d2; ++d1) set_result_value(d1, APOSTOL_LENT);
-    for (DD d1=lent_beign, d2=pasha; d1 < d2; ++d1) set_result_value(d1, GREAT_LENT);
+    for (DD d1=lent_begin, d2=pasha; d1 < d2; ++d1) set_result_value(d1, GREAT_LENT);
     // один из трех типов церковных праздников
     set_result_value(palm_sun,  MOVEABLE_FEAST);
     set_result_value(ascension, MOVEABLE_FEAST);
@@ -802,8 +802,8 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
 // index    = [year_number_in_great_indiction - 1]
 // value    = apostol fast length as int
 constexpr auto apostol_fast_sizes_array = []() consteval {
-  auto calc_apostol_fast_length_for = [p = static_cast<int>(PASHA)](const int y) consteval {
-    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[p][y-1]) ;
+  auto calc_apostol_fast_length_for = [](const int y) consteval {
+    const int x1 = days_count_from_1jan_to(y, array_of_dates_by_property_and_year[static_cast<int>(PASHA)][y-1]) ;
     const int x2 = days_count_from_1jan_to(y, {6,29}) ;
     return x2 - x1 - 57;
   };
