@@ -22,7 +22,7 @@ jobs:
     - name: build
       run: |
         gcc --version
-        g++ -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=100000000 great_indiction.cpp
+        g++ -Wall -Wextra -Werror -std=c++23 -c -O2 -fconstexpr-ops-limit=10000000000 great_indiction.cpp
 
     - name: test
       run: |
