@@ -429,5 +429,6 @@ MonthDay find_date(const int year_number_in_great_indiction, const DayProperty p
 std::vector<MonthDay> find_all_dates(const int year_number_in_great_indiction, const DayProperty property) ;
 std::vector<MonthDay> find_all_dates(const int year_number_in_great_indiction,
                                      std::initializer_list<DayProperty> properties) ;
+std::vector<DayProperty> get_day_properties(const int year_number_in_great_indiction, const MonthDay date) ;
 
 } // namespace great_indiction

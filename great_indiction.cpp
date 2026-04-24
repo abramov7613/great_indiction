@@ -29,6 +29,7 @@
 #include <array>
 #include <stdexcept>
 #include <algorithm>
+#include <optional>
 
 namespace {
 
@@ -259,7 +260,7 @@ consteval auto calc_easter_for(const int year_number_in_great_indiction)
 
 // first index  = DayProperty as integer
 // second index = year_number_in_great_indiction - 1
-// value        = array of MonthDay objects
+// value        = std::array of MonthDay objects
 constexpr auto array_of_dates_by_property_and_year = []() consteval {
   std::array<std::array<std::array<MonthDay,80>, GREAT_INDICTION_LENGTH>,
              static_cast<unsigned>(DAY_PROPERTY_ENUM_SIZE_)> r;
@@ -813,6 +814,31 @@ constexpr auto apostol_fast_sizes_array = []() consteval {
 }();
 
 
+// first index  = year_number_in_great_indiction - 1
+// second index = month number -1
+// third index  = day number -1
+// value        = array of DayProperty objects as OptDayPropertiesArr type
+using ArrayOptProperties = std::array<std::optional<DayProperty>, 16> ;
+using OptDayPropertiesArr = std::optional<ArrayOptProperties> ;
+using DaysArr = std::array<OptDayPropertiesArr, 31> ;
+constexpr auto array_of_dates_by_year_month_day_numbers = []() consteval {
+  std::array<std::array<DaysArr, 12>, GREAT_INDICTION_LENGTH> result ;
+  auto psz = static_cast<int>(DAY_PROPERTY_ENUM_SIZE_) ;
+  for (int p=0; p<psz; ++p) for (int u=0; u<GREAT_INDICTION_LENGTH; ++u) {
+    int year = u+1;
+    auto& dates_arr = array_of_dates_by_property_and_year[p][u];
+    for (auto [month ,day]: dates_arr) if (month>0 && day>0) {
+      auto& internal_arr = result[year-1][month-1][day-1] ;
+      if (!internal_arr) internal_arr.emplace();
+      auto x = std::find(internal_arr->begin(), internal_arr->end(), std::nullopt);
+      if (x == internal_arr->end()) throw "limit of ArrayOptProperties size";
+      *x = static_cast<DayProperty>(p);
+    }
+  }
+  return result;
+}();
+
+
 } // namespace without name
 
 
@@ -864,6 +890,18 @@ std::vector<MonthDay> find_all_dates(const int y, std::initializer_list<DayPrope
     auto v = find_all_dates(y,p);
     std::move(v.begin(), v.end(), std::back_inserter(result));
   }
+  return result;
+}
+
+
+std::vector<DayProperty> get_day_properties(const int y, const MonthDay d)
+{
+  check_date(y, d);
+  std::vector<DayProperty> result;
+  const auto& arr = array_of_dates_by_year_month_day_numbers[y-1][d.first-1][d.second-1] ;
+  std::copy_if(arr.begin(), arr.end(), std::back_inserter(result), [](const auto& e){
+    return static_cast<bool>(e) ;
+  });
   return result;
 }
 
