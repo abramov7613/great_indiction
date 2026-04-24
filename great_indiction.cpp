@@ -671,7 +671,7 @@ constexpr auto array_of_dates_by_property_and_year = []() consteval {
     dd = {3, 9};
     if(dd==lent_begin.icp(23)) dd = {3, 8};
     if(dd==lent_begin.icp(31)) dd = {3, 7};
-    if(dd==palm_sun.dcp(1)) dd = {3, 10};
+    if(dd==lent_begin.icp(33)) dd = {3, 10};
     if(dd>=lent_begin && dd<=lent_begin.icp(4)) dd = lent_begin.icp(5);
     set_result_value(dd, HOLY_FORTY_MARTYRS_OF_SEBASTE);
     // Предпразднство Благовещения Пресвятой Богородицы.
