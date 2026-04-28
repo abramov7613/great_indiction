@@ -34,12 +34,21 @@
 namespace {
 
 using namespace great_indiction ;
+constexpr auto DAY_PROPERTY_MAX_VALUE_AS_INTEGER = static_cast<int>(DAY_PROPERTY_ENUM_SIZE_) - 1 ;
 
 
 constexpr void check_year_number(const int year_number_in_great_indiction)
 {
   if (year_number_in_great_indiction < 1 || year_number_in_great_indiction > GREAT_INDICTION_LENGTH)
-    throw std::runtime_error("value of 'year_number_in_great_indiction' must be in range [1,533)");
+    throw std::runtime_error("great_indiction: value of 'year_number_in_great_indiction' must be in range [1,533)");
+}
+
+
+constexpr void check_property_number(DayProperty p)
+{
+  auto pnum = static_cast<int>(p);
+  if (pnum < 0 || pnum > DAY_PROPERTY_MAX_VALUE_AS_INTEGER)
+    throw std::runtime_error("great_indiction: invalid DayProperty value");
 }
 
 
@@ -854,6 +863,7 @@ int apostol_fast_length(const int y)
 MonthDay find_date(const int y, const DayProperty p)
 {
   check_year_number(y) ;
+  check_property_number(p) ;
   return array_of_dates_by_property_and_year[static_cast<int>(p)][y-1][0] ;
 }
 
@@ -874,6 +884,7 @@ bool is_date_of(const int y, const MonthDay d, const DayProperty p)
 std::vector<MonthDay> find_all_dates(const int y, const DayProperty p)
 {
   check_year_number(y) ;
+  check_property_number(p) ;
   std::vector<MonthDay> result;
   const auto& arr = array_of_dates_by_property_and_year[static_cast<int>(p)][y-1] ;
   std::copy_if(arr.begin(), arr.end(), std::back_inserter(result), [](const auto& e){
