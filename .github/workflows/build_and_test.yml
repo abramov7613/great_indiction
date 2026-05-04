@@ -31,4 +31,6 @@ jobs:
         wget https://github.com/catchorg/Catch2/releases/download/v3.14.0/catch_amalgamated.hpp
         g++ -std=c++23 -c catch_amalgamated.cpp
         g++ -Wall -Wextra -Werror -std=c++23 test01.cpp ../great_indiction.o ./catch_amalgamated.o -o test01
+        g++ -Wall -Wextra -Werror -std=c++23 test02.cpp ../great_indiction.o ./catch_amalgamated.o -o test02
         ./test01
+        ./test02
